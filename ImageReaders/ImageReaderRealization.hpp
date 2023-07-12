@@ -26,9 +26,9 @@ public:
     }
 
 protected:
-    virtual void CheckHeader(const _ImageFormat& image) const noexcept(false) = 0;
-    virtual void CheckData(const _ImageFormat& image) const noexcept(false) = 0;
-
     virtual void ReadHeader(_ImageFormat& image) noexcept = 0;
     virtual void ReadData(_ImageFormat& image) noexcept = 0;
+
+    virtual void CheckHeader(const _ImageFormat& image) const noexcept(false) = 0;
+    virtual void CheckData(const _ImageFormat& image) const noexcept(false) = 0;
 };
