@@ -40,14 +40,24 @@ const ImageFormat::ScreenResolution& ImageFormat::GetHeight() const noexcept
     return const_cast<ImageFormat*>(this)->GetHeight();
 }
 
-ImageFormat::Byte& ImageFormat::GetByte(const std::size_t height, 
-        const std::size_t width) noexcept(false)
+ImageFormat::DataStorage& ImageFormat::GetData() noexcept
+{
+    return m_Data;
+}
+
+const ImageFormat::DataStorage& ImageFormat::GetData() const noexcept
+{
+    return const_cast<ImageFormat*>(this)->GetData();
+}
+
+ImageFormat::Byte& ImageFormat::GetByte(const ScreenResolution height,
+        const ScreenResolution width) noexcept(false)
 {
     return m_Data.at(height).at(width);
 }
 
-const ImageFormat::Byte& ImageFormat::GetByte(const std::size_t height, 
-        const std::size_t width) const noexcept(false)
+const ImageFormat::Byte& ImageFormat::GetByte(const ScreenResolution height,
+        const ScreenResolution width) const noexcept(false)
 {
     return const_cast<ImageFormat*>(this)->GetByte(height, width);
 }

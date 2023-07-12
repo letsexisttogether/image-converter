@@ -30,14 +30,19 @@ public:
     const ScreenResolution& GetHeight() const noexcept;
     ScreenResolution& GetHeight() noexcept;
     
-    Byte& GetByte(const std::size_t height, const std::size_t width) noexcept(false);
-    const Byte& GetByte(const std::size_t height, const std::size_t width) const noexcept(false);
+    DataStorage& GetData() noexcept;
+    const DataStorage& GetData() const noexcept;
+
+    Byte& GetByte(const ScreenResolution height, const ScreenResolution width)
+        noexcept(false);
+    const Byte& GetByte(const ScreenResolution height, const ScreenResolution width)
+        const noexcept(false);
 
     ImageFormat& operator = (const ImageFormat&) = default;
     ImageFormat& operator = (ImageFormat&& imageFormat);
 
 protected:
-    ScreenResolution m_Width;
-    ScreenResolution m_Height;
-    DataStorage m_Data;
+    ScreenResolution m_Width{};
+    ScreenResolution m_Height{};
+    DataStorage m_Data{};
 };
