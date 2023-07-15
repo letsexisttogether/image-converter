@@ -4,6 +4,8 @@
 ### build ### 
 build/
 .vscode/
+*.json
+
 
 ### C++ ###
 # Prerequisites
