@@ -11,7 +11,7 @@ public:
         : m_FileReader{ std::move(reader) }
     {}
 
-    virtual ~ImageReader() = 0;
+    virtual ~ImageReader() = default;
 
     virtual ImageFormat Read() noexcept(false) = 0;
 
