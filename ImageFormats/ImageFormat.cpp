@@ -40,6 +40,16 @@ const ImageFormat::ScreenResolution& ImageFormat::GetHeight() const noexcept
     return const_cast<ImageFormat*>(this)->GetHeight();
 }
 
+const ImageFormat::CompleteResolution ImageFormat::GetResolution() const noexcept
+{
+    return const_cast<ImageFormat*>(this)->GetResolution();
+}
+
+ImageFormat::CompleteResolution ImageFormat::GetResolution() noexcept
+{
+    return { m_Height, m_Width };
+}
+
 ImageFormat::DataStorage& ImageFormat::GetData() noexcept
 {
     return m_Data;
@@ -50,16 +60,16 @@ const ImageFormat::DataStorage& ImageFormat::GetData() const noexcept
     return const_cast<ImageFormat*>(this)->GetData();
 }
 
-ImageFormat::Byte& ImageFormat::GetByte(const ScreenResolution height,
+Pixel& ImageFormat::GetPixel(const ScreenResolution height,
         const ScreenResolution width) noexcept(false)
 {
     return m_Data.at(height).at(width);
 }
 
-const ImageFormat::Byte& ImageFormat::GetByte(const ScreenResolution height,
+const Pixel& ImageFormat::GetPixel(const ScreenResolution height,
         const ScreenResolution width) const noexcept(false)
 {
-    return const_cast<ImageFormat*>(this)->GetByte(height, width);
+    return const_cast<ImageFormat*>(this)->GetPixel(height, width);
 }
 
 ImageFormat& ImageFormat::operator = (ImageFormat&& imageFormat)

@@ -29,6 +29,6 @@ public:
     PPM& operator = (PPM&& ppm);
 
 private:
-    std::string m_Format;
-	std::uint16_t m_PixelMaxValue;       
+    std::string m_Format{};
+	std::uint16_t m_PixelMaxValue{};       
 };

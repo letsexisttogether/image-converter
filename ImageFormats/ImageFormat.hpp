@@ -3,13 +3,16 @@
 #include <cstdint>
 #include <vector>
 
+#include "Pixel/Pixel.hpp"
+
 class ImageFormat
 {
 public:
     using ScreenResolution = std::uint16_t;
-    using Byte = std::uint8_t;
-    using DataRow = std::vector<Byte>;
-    using DataStorage = std::vector<DataRow>; 
+    using DataRow = std::vector<Pixel>;
+    using DataStorage = std::vector<DataRow>;
+    // [Height, Widht]
+    using CompleteResolution = std::pair<ScreenResolution, ScreenResolution>;
 
 public: 
     ImageFormat() = default;
@@ -29,13 +32,16 @@ public:
     
     const ScreenResolution& GetHeight() const noexcept;
     ScreenResolution& GetHeight() noexcept;
-    
+   
+    const CompleteResolution GetResolution() const noexcept;
+    CompleteResolution GetResolution() noexcept;
+
     DataStorage& GetData() noexcept;
     const DataStorage& GetData() const noexcept;
 
-    Byte& GetByte(const ScreenResolution height, const ScreenResolution width)
+    Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
         noexcept(false);
-    const Byte& GetByte(const ScreenResolution height, const ScreenResolution width)
+    const Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
         const noexcept(false);
 
     ImageFormat& operator = (const ImageFormat&) = default;
