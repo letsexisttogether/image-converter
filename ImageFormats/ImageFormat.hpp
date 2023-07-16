@@ -11,7 +11,7 @@ public:
     using ScreenResolution = std::uint16_t;
     using DataRow = std::vector<Pixel>;
     using DataStorage = std::vector<DataRow>;
-    // [Height, Widht]
+    // [Height, Width]
     using CompleteResolution = std::pair<ScreenResolution, ScreenResolution>;
 
 public: 

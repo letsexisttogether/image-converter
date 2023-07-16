@@ -2,6 +2,7 @@
 #include "ImageFormats/ImageFormat.hpp"
 
 #include <complex>
+#include <ios>
 #include <stdexcept>
 #include <utility>
 
@@ -13,6 +14,23 @@ void PPMReader::ReadHeader(PPM& ppm) noexcept
 {
     m_FileReader >> ppm.GetFormat() >> ppm.GetWidth() >> ppm.GetHeight()
         >> ppm.GetPixelMaxValue();
+
+    m_FileReader.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+    for (char smb; m_FileReader.get(smb); )
+    {
+        if (smb == '#')
+        {
+            std::string commentLine;
+            std::getline(m_FileReader, commentLine);
+        }
+        else
+        {
+            m_FileReader.seekg(m_FileReader.tellg() - std::streamoff(1));
+
+            break;
+        }
+    }
 }
 
 void PPMReader::ReadData(PPM& ppm) noexcept 
@@ -50,11 +68,9 @@ void PPMReader::CheckHeader(const PPM& ppm) const noexcept(false)
 
 void PPMReader::CheckData(const PPM& ppm) const noexcept(false)
 {
-    auto& imageData = ppm.GetData();
-    const auto& [height, width] = ppm.GetResolution();
+    const auto& imageData = ppm.GetData();
 
-    // Get a reason about passing width like that and explain or change it later
-    auto checkEachRowSize = [&imageData](const ImageFormat::ScreenResolution width)
+    auto checkEachRowSize = [imageData](const ImageFormat::ScreenResolution width)
     {
         for (const auto& row : imageData)
         {
@@ -67,8 +83,8 @@ void PPMReader::CheckData(const PPM& ppm) const noexcept(false)
         return true;
     };
 
-    if (const ImageFormat::ScreenResolution size = imageData.size();
-            size != height || !checkEachRowSize(width))
+    if (const auto& [height, width] = ppm.GetResolution();
+        imageData.size() != height || !checkEachRowSize(ppm.GetWidth()))
     {
         throw std::runtime_error{ "The data is corrupted" };
     }
