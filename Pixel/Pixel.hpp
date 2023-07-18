@@ -27,8 +27,8 @@ public:
     const Byte& GetBlue() const noexcept;
     Byte& GetBlue() noexcept;
 
-    const ColorValues& GetColorValues() const noexcept;
-    ColorValues& GetColorValues() noexcept;
+    const ColorValues GetColorValues() const noexcept;
+    ColorValues GetColorValues() noexcept;
 
     Pixel& operator = (const Pixel&) = default;
     Pixel& operator = (Pixel&&) = default;

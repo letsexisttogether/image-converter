@@ -34,6 +34,16 @@ const Pixel::Byte& Pixel::GetBlue() const noexcept
     return const_cast<Pixel*>(this)->GetBlue();
 }
 
+const Pixel::ColorValues Pixel::GetColorValues() const noexcept
+{
+    return const_cast<Pixel*>(this)->GetColorValues();
+}
+
+Pixel::ColorValues Pixel::GetColorValues() noexcept
+{
+    return { m_Red, m_Green, m_Blue };    
+}
+
 std::ifstream& operator >> (std::ifstream& stream, Pixel& pixel)
 {
     stream >> pixel.m_Red >> pixel.m_Green >> pixel.m_Blue;

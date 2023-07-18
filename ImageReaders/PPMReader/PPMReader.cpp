@@ -66,6 +66,8 @@ void PPMReader::CheckHeader(const PPM& ppm) const noexcept(false)
     }
 }
 
+// TODO: rework the method
+// Problem: doesn't throw an exception if a row contains less elements than width
 void PPMReader::CheckData(const PPM& ppm) const noexcept(false)
 {
     const auto& imageData = ppm.GetData();
