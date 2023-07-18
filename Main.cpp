@@ -3,10 +3,11 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <ostream>
 
-#include "ImageFormats/ImageFormat.hpp"
 #include "ImageReaders/PPMReader/PPMReader.hpp"
-#include "Pixel/Pixel.hpp"
+#include "ImageWriters/ImageWriter.hpp"
+#include "ImageWriters/PPMWriter/PPMWriter.hpp"
 
 void PrintImage(const ImageFormat& image)
 {
@@ -14,7 +15,7 @@ void PrintImage(const ImageFormat& image)
 
     std::cout << "Height: " << height << " Width: " << width 
         << "\nData:\n";
-    
+
     for (ImageFormat::ScreenResolution h = 0; h < height; ++h)
     {
         for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
@@ -44,8 +45,25 @@ std::int32_t main(std::int32_t argc, const char** argv)
     {
         std::unique_ptr<ImageReader> reader{ new PPMReader{ std::ifstream{ argv[1] } } };
         const ImageFormat image{ reader->Read() };
+        
 
-        PrintImage(image);
+        const PPM signature
+        {
+            ImageFormat{ 0, 0 },
+            "P3",
+            5
+        };
+
+        std::unique_ptr<ImageWriter> writer
+        { 
+            new PPMWriter
+            { 
+                std::ofstream{ argv[2] }, 
+                image,
+                signature
+            } 
+        };
+        writer->Write();
     }
     catch (std::exception& exp)
     {
