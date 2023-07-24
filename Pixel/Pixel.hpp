@@ -6,7 +6,7 @@
 class Pixel
 {
 public:
-    using Byte = std::uint8_t;
+    using Byte = std::uint16_t;
     using ColorValues = std::tuple<Byte, Byte, Byte>;
 
 public:

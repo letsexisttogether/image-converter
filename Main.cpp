@@ -5,8 +5,7 @@
 #include <memory>
 #include <ostream>
 
-#include "ImageReaders/PPMReader/PPMReader.hpp"
-#include "ImageWriters/ImageWriter.hpp"
+#include "ImageReaders/PPMReader/PPMP6Reader.hpp"
 #include "ImageWriters/PPMWriter/PPMWriter.hpp"
 
 void PrintImage(const ImageFormat& image)
@@ -43,15 +42,15 @@ std::int32_t main(std::int32_t argc, const char** argv)
     
     try
     {
-        std::unique_ptr<ImageReader> reader{ new PPMReader{ std::ifstream{ argv[1] } } };
+        std::unique_ptr<ImageReader> reader{ new PPMP6Reader{ std::ifstream{ argv[1], 
+            std::ios::binary } } };
         const ImageFormat image{ reader->Read() };
-        
 
         const PPM signature
         {
-            ImageFormat{ 0, 0 },
+            ImageFormat{},
             "P3",
-            5
+            255
         };
 
         std::unique_ptr<ImageWriter> writer
@@ -64,7 +63,8 @@ std::int32_t main(std::int32_t argc, const char** argv)
             } 
         };
         writer->Write();
-    }
+
+    }    
     catch (std::exception& exp)
     {
         std::cerr << exp.what() << std::endl;

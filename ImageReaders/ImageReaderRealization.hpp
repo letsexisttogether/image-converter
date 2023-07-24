@@ -19,7 +19,7 @@ public:
         ReadHeader(image);
         CheckHeader(image);
 
-        ReadData(image);
+        ReadData(image); 
         CheckData(image);
 
         return image;

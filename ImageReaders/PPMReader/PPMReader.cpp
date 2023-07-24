@@ -1,5 +1,4 @@
 #include "PPMReader.hpp"
-#include "ImageFormats/ImageFormat.hpp"
 
 #include <complex>
 #include <ios>
