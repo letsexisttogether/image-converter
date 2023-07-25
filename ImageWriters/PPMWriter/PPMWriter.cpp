@@ -1,15 +1,14 @@
 #include "PPMWriter.hpp"
 
-PPMWriter::PPMWriter(std::ofstream&& fileWriter, const ImageFormat& image,
-        const PPM& signature)
-    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter), image, signature }
+PPMWriter::PPMWriter(std::ofstream&& fileWriter, const PPM& image)
+    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter), image }
 {}
 
 void PPMWriter::WriteHeader() noexcept(false)
 {
-    m_FileWriter << m_Signature.GetFormat() << '\n'
+    m_FileWriter << m_Image.GetFormat() << '\n'
         << m_Image.GetWidth() << ' ' << m_Image.GetHeight() << ' ' 
-        << m_Signature.GetPixelMaxValue() << '\n';
+        << m_Image.GetPixelMaxValue() << '\n';
 }
 
 void PPMWriter::WriteData() noexcept(false)

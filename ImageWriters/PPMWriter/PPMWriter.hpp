@@ -6,7 +6,7 @@
 class PPMWriter : public ImageWriterRealization<PPM>
 {
 public:
-    PPMWriter(std::ofstream&& fileWriter, const ImageFormat& image, const PPM& signature);
+    PPMWriter(std::ofstream&& fileWriter, const PPM& image);
 
     ~PPMWriter() = default;
 
