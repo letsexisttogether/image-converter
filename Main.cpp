@@ -7,6 +7,7 @@
 
 #include "ImageReaders/PPMReader/PPMP6Reader.hpp"
 #include "ImageWriters/PPMWriter/PPMWriter.hpp"
+#include "ImagePreparators/PPM/PPMPreparator.hpp"
 
 void PrintImage(const ImageFormat& image)
 {
@@ -46,19 +47,19 @@ std::int32_t main(std::int32_t argc, const char** argv)
             std::ios::binary } } };
         const ImageFormat image{ reader->Read() };
 
-        const PPM signature
+        PPM signature
         {
-            ImageFormat{},
-            "P3",
-            255
+            std::move(image)
         };
+
+        std::unique_ptr<ImagePreparator> preparator{ new PPMPreparator{ signature } };
+        preparator->PrepareImage();
 
         std::unique_ptr<ImageWriter> writer
         { 
             new PPMWriter
             { 
                 std::ofstream{ argv[2] }, 
-                image,
                 signature
             } 
         };
