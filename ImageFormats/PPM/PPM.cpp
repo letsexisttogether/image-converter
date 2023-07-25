@@ -5,6 +5,14 @@ PPM::PPM(PPM&& ppm)
         m_PixelMaxValue{ ppm.m_PixelMaxValue }
 {}   
 
+PPM::PPM(const ImageFormat& image)
+    : ImageFormat{ image }
+{}
+
+PPM::PPM(ImageFormat&& image)
+    : ImageFormat{ std::move(image) }
+{}
+
 PPM::PPM(const ImageFormat& image, const std::string& format, 
             const std::uint16_t pixelMaxValue) 
     : ImageFormat{ image }, m_Format{ format }, m_PixelMaxValue{ pixelMaxValue }  
@@ -26,12 +34,12 @@ const std::string& PPM::GetFormat() const noexcept
     return const_cast<PPM*>(this)->GetFormat();
 }
 
-std::uint16_t& PPM::GetPixelMaxValue() noexcept
+Pixel::Byte& PPM::GetPixelMaxValue() noexcept
 {
     return m_PixelMaxValue;
 }
 
-const std::uint16_t& PPM::GetPixelMaxValue() const noexcept
+const Pixel::Byte& PPM::GetPixelMaxValue() const noexcept
 {
     return const_cast<PPM*>(this)->GetPixelMaxValue();
 }

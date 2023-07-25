@@ -14,9 +14,11 @@ set(PPMFormat "ImageFormats/PPM/PPM.cpp")
 set(PPMReader "ImageReaders/PPMReader/PPMReader.cpp")
 set(PPMP6Reader "ImageReaders/PPMReader/PPMP6Reader.cpp")
 set(PPMWriter "ImageWriters/PPMWriter/PPMWriter.cpp")
+set(PPMPreparator "ImagePreparators/PPM/PPMPreparator.cpp")
 set(Pixel "Pixel/Pixel.cpp")
 
-set(SOURCES Main.cpp ${ImageFormat} ${PPMFormat} ${PPMReader} ${PPMP6Reader} ${PPMWriter} ${Pixel})
+set(SOURCES Main.cpp ${ImageFormat} ${PPMFormat} ${PPMReader} ${PPMP6Reader} 
+    ${PPMPreparator} ${PPMWriter} ${Pixel})
 
 add_executable(${PROJECT_NAME}
     ${SOURCES}) 
