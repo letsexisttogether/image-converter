@@ -11,8 +11,8 @@ PPMReader::PPMReader(std::ifstream&& reader)
 
 void PPMReader::ReadHeader(PPM& ppm) noexcept
 {
-    m_FileReader >> ppm.GetFormat() >> ppm.GetWidth() >> ppm.GetHeight()
-        >> ppm.GetPixelMaxValue();
+    m_FileReader >> ppm.Format >> ppm.Width >> ppm.Height
+        >> ppm.PixelMaxValue;
 
     m_FileReader.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -34,7 +34,7 @@ void PPMReader::ReadHeader(PPM& ppm) noexcept
 
 void PPMReader::ReadData(PPM& ppm) noexcept 
 {
-    auto& imageData = ppm.GetData();
+    auto& imageData = ppm.Data;
     const auto& [height, width] = ppm.GetResolution();
     
     imageData.reserve(height);
@@ -58,7 +58,7 @@ void PPMReader::ReadData(PPM& ppm) noexcept
 
 void PPMReader::CheckHeader(const PPM& ppm) const noexcept(false)
 {
-    if (const auto& format = ppm.GetFormat(); format != "P3")
+    if (const auto& format = ppm.Format; format != "P3")
     {
         throw std::runtime_error{ "The program does not support " + format + 
             " format of .ppm file type" };
@@ -69,7 +69,7 @@ void PPMReader::CheckHeader(const PPM& ppm) const noexcept(false)
 // Problem: doesn't throw an exception if a row contains less elements than width
 void PPMReader::CheckData(const PPM& ppm) const noexcept(false)
 {
-    const auto& imageData = ppm.GetData();
+    const auto& imageData = ppm.Data;
 
     auto checkEachRowSize = [imageData](const ImageFormat::ScreenResolution width)
     {
@@ -85,7 +85,7 @@ void PPMReader::CheckData(const PPM& ppm) const noexcept(false)
     };
 
     if (const auto& [height, width] = ppm.GetResolution();
-        imageData.size() != height || !checkEachRowSize(ppm.GetWidth()))
+        imageData.size() != height || !checkEachRowSize(ppm.Width))
     {
         throw std::runtime_error{ "The data is corrupted" };
     }

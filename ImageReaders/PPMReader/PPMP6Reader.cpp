@@ -7,13 +7,13 @@ PPMP6Reader::PPMP6Reader(std::ifstream&& reader)
 
 void PPMP6Reader::ReadData(PPM& ppm) noexcept 
 {
-    auto& imageData = ppm.GetData();
+    auto& imageData = ppm.Data;
     const auto& [height, width] = ppm.GetResolution();
     
     imageData.reserve(height);
 
     const std::size_t byteSize = sizeof(std::uint8_t); 
-    const std::size_t extraByte = byteSize * (ppm.GetPixelMaxValue() > 255);   
+    const std::size_t extraByte = byteSize * (ppm.PixelMaxValue > 255);   
 
     auto readBytes = [=](Pixel::Byte* byte)  
     {
@@ -43,7 +43,7 @@ void PPMP6Reader::ReadData(PPM& ppm) noexcept
 void PPMP6Reader::CheckHeader(const PPM& ppm) const noexcept(false)  
 {
 
-    if (const auto& format = ppm.GetFormat(); format != "P6")
+    if (const auto& format = ppm.Format; format != "P6")
     {
         throw std::runtime_error{ "The program does not support " + format + 
             " format of .ppm file type" };
