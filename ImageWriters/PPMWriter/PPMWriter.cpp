@@ -6,9 +6,9 @@ PPMWriter::PPMWriter(std::ofstream&& fileWriter, const PPM& image)
 
 void PPMWriter::WriteHeader() noexcept(false)
 {
-    m_FileWriter << m_Image.GetFormat() << '\n'
-        << m_Image.GetWidth() << ' ' << m_Image.GetHeight() << ' ' 
-        << m_Image.GetPixelMaxValue() << '\n';
+    m_FileWriter << m_Image.Format << '\n'
+        << m_Image.Width << ' ' << m_Image.Height << '\n' 
+        << m_Image.PixelMaxValue << '\n';
 }
 
 void PPMWriter::WriteData() noexcept(false)
