@@ -1,8 +1,8 @@
 #include "PPM.hpp"
 
 PPM::PPM(PPM&& ppm)
-    : ImageFormat{ std::move(ppm) }, m_Format{ std::move(ppm.m_Format) },
-        m_PixelMaxValue{ ppm.m_PixelMaxValue }
+    : ImageFormat{ std::move(ppm) }, Format{ std::move(ppm.Format) },
+        PixelMaxValue{ ppm.PixelMaxValue }
 {}   
 
 PPM::PPM(const ImageFormat& image)
@@ -15,31 +15,17 @@ PPM::PPM(ImageFormat&& image)
 
 PPM::PPM(const ImageFormat& image, const std::string& format, 
             const std::uint16_t pixelMaxValue) 
-    : ImageFormat{ image }, m_Format{ format }, m_PixelMaxValue{ pixelMaxValue }  
+    : ImageFormat{ image }, Format{ format }, PixelMaxValue{ pixelMaxValue }  
 {}
 
 PPM::PPM(ImageFormat&& image, std::string&& format, 
         const std::uint16_t pixelMaxValue)
-    : ImageFormat{ std::move(image) }, m_Format{ std::move(format) },
-        m_PixelMaxValue{ pixelMaxValue }
+    : ImageFormat{ std::move(image) }, Format{ std::move(format) },
+        PixelMaxValue{ pixelMaxValue }
 {}
 
-std::string& PPM::GetFormat() noexcept
+// Get info about operator = with rvalues for inheritated classes
+PPM& PPM::operator = (PPM&& ppm)
 {
-    return m_Format; 
-}
-
-const std::string& PPM::GetFormat() const noexcept
-{
-    return const_cast<PPM*>(this)->GetFormat();
-}
-
-Pixel::Byte& PPM::GetPixelMaxValue() noexcept
-{
-    return m_PixelMaxValue;
-}
-
-const Pixel::Byte& PPM::GetPixelMaxValue() const noexcept
-{
-    return const_cast<PPM*>(this)->GetPixelMaxValue();
+    return *this;
 }

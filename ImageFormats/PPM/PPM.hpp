@@ -22,16 +22,10 @@ public:
 
     ~PPM() = default;
 
-    std::string& GetFormat() noexcept; 
-    const std::string& GetFormat() const noexcept; 
-
-    Pixel::Byte& GetPixelMaxValue() noexcept;
-    const Pixel::Byte& GetPixelMaxValue() const noexcept;
-
     PPM& operator = (const PPM&) = default;
     PPM& operator = (PPM&& ppm);
 
-private:
-    std::string m_Format{};
-    Pixel::Byte m_PixelMaxValue{};       
+public:
+    std::string Format{};
+    Pixel::Byte PixelMaxValue{};       
 };
