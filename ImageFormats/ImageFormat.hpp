@@ -27,18 +27,6 @@ public:
     
     virtual ~ImageFormat() = default;
 
-    const ScreenResolution& GetWidth() const noexcept;
-    ScreenResolution& GetWidth() noexcept;
-    
-    const ScreenResolution& GetHeight() const noexcept;
-    ScreenResolution& GetHeight() noexcept;
-   
-    const CompleteResolution GetResolution() const noexcept;
-    CompleteResolution GetResolution() noexcept;
-
-    DataStorage& GetData() noexcept;
-    const DataStorage& GetData() const noexcept;
-
     Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
         noexcept(false);
     const Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
@@ -47,8 +35,8 @@ public:
     ImageFormat& operator = (const ImageFormat&) = default;
     ImageFormat& operator = (ImageFormat&& imageFormat);
 
-protected:
-    ScreenResolution m_Width{};
-    ScreenResolution m_Height{};
-    DataStorage m_Data{};
+public:
+    ScreenResolution Width{};
+    ScreenResolution Height{};
+    DataStorage Data{};
 };

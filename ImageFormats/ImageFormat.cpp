@@ -1,69 +1,29 @@
 #include "ImageFormat.hpp"
 
 ImageFormat::ImageFormat(ImageFormat&& imageFormat)
-    : m_Width{ imageFormat.m_Width }, m_Height{ imageFormat.m_Height }, 
-        m_Data{ std::move(imageFormat.m_Data) }
+    : Width{ imageFormat.Width }, Height{ imageFormat.Height }, 
+        Data{ std::move(imageFormat.Data) }
 {}
 
 ImageFormat::ImageFormat(const ScreenResolution width, const ScreenResolution height)
-    : m_Width{ width }, m_Height{ height }, 
-        m_Data(m_Height, ImageFormat::DataRow(m_Width))
+    : Width{ width }, Height{ height }, 
+        Data(Height, ImageFormat::DataRow(Width))
 {}
 
 ImageFormat::ImageFormat(const ScreenResolution width, const ScreenResolution height, 
         const DataStorage& data)
-    : m_Width{ width }, m_Height{ height }, m_Data{ data }
+    : Width{ width }, Height{ height }, Data{ data }
 {}
 
 ImageFormat::ImageFormat(const ScreenResolution width, const ScreenResolution height, 
         DataStorage&& data)
-    : m_Width{ width }, m_Height{ height }, m_Data{ std::move(data) }
+    : Width{ width }, Height{ height }, Data{ std::move(data) }
 {}
-
-ImageFormat::ScreenResolution& ImageFormat::GetWidth() noexcept
-{
-    return m_Width;
-}
-
-const ImageFormat::ScreenResolution& ImageFormat::GetWidth() const noexcept
-{
-    return const_cast<ImageFormat*>(this)->GetWidth();
-}
-
-ImageFormat::ScreenResolution& ImageFormat::GetHeight() noexcept
-{
-    return m_Height;
-}
-
-const ImageFormat::ScreenResolution& ImageFormat::GetHeight() const noexcept
-{
-    return const_cast<ImageFormat*>(this)->GetHeight();
-}
-
-const ImageFormat::CompleteResolution ImageFormat::GetResolution() const noexcept
-{
-    return const_cast<ImageFormat*>(this)->GetResolution();
-}
-
-ImageFormat::CompleteResolution ImageFormat::GetResolution() noexcept
-{
-    return { m_Height, m_Width };
-}
-
-ImageFormat::DataStorage& ImageFormat::GetData() noexcept
-{
-    return m_Data;
-}
-
-const ImageFormat::DataStorage& ImageFormat::GetData() const noexcept
-{
-    return const_cast<ImageFormat*>(this)->GetData();
-}
 
 Pixel& ImageFormat::GetPixel(const ScreenResolution height,
         const ScreenResolution width) noexcept(false)
 {
-    return m_Data.at(height).at(width);
+    return Data.at(height).at(width);
 }
 
 const Pixel& ImageFormat::GetPixel(const ScreenResolution height,
@@ -74,9 +34,9 @@ const Pixel& ImageFormat::GetPixel(const ScreenResolution height,
 
 ImageFormat& ImageFormat::operator = (ImageFormat&& imageFormat)
 {
-    m_Height = imageFormat.m_Height;
-    m_Width = imageFormat.m_Width;
-    m_Data = std::move(imageFormat.m_Data);
+    Height = imageFormat.Height;
+    Width = imageFormat.Width;
+    Data = std::move(imageFormat.Data);
 
     return *this;
 }
