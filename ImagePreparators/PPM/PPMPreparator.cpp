@@ -6,8 +6,8 @@ PPMPreparator::PPMPreparator(PPM& image)
 
 void PPMPreparator::PrepareImage() noexcept
 {
-    m_Image.GetFormat() = GetFormat(); 
-    m_Image.GetPixelMaxValue() = GetPixelMaxValue();
+    m_Image.Format = GetFormat(); 
+    m_Image.PixelMaxValue = GetPixelMaxValue();
 }
 
 Pixel::Byte PPMPreparator::GetPixelMaxValue() const noexcept
@@ -19,7 +19,7 @@ Pixel::Byte PPMPreparator::GetPixelMaxValue() const noexcept
         maxValue = std::max(maxValue, value);
     };
 
-    for (const auto& row : m_Image.GetData())
+    for (const auto& row : m_Image.Data)
     {
         for (const Pixel& pixel : row)
         {
