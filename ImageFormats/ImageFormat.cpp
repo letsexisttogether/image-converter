@@ -20,6 +20,16 @@ ImageFormat::ImageFormat(const ScreenResolution width, const ScreenResolution he
     : Width{ width }, Height{ height }, Data{ std::move(data) }
 {}
 
+const ImageFormat::CompleteResolution ImageFormat::GetResolution() const noexcept
+{
+    return const_cast<ImageFormat*>(this)->GetResolution();
+}
+
+ImageFormat::CompleteResolution ImageFormat::GetResolution() noexcept
+{
+    return { Height, Width };
+}
+
 Pixel& ImageFormat::GetPixel(const ScreenResolution height,
         const ScreenResolution width) noexcept(false)
 {

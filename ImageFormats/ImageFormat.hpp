@@ -27,6 +27,9 @@ public:
     
     virtual ~ImageFormat() = default;
 
+    const CompleteResolution GetResolution() const noexcept;
+    CompleteResolution GetResolution() noexcept;
+
     Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
         noexcept(false);
     const Pixel& GetPixel(const ScreenResolution height, const ScreenResolution width)
