@@ -11,8 +11,7 @@ PPMReader::PPMReader(std::ifstream&& reader)
 
 void PPMReader::ReadHeader(PPM& ppm) noexcept
 {
-    m_FileReader >> ppm.Format >> ppm.Width >> ppm.Height
-        >> ppm.PixelMaxValue;
+    m_FileReader >> ppm.Format; 
 
     m_FileReader.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -30,6 +29,11 @@ void PPMReader::ReadHeader(PPM& ppm) noexcept
             break;
         }
     }
+
+    m_FileReader >> ppm.Width >> ppm.Height
+        >> ppm.PixelMaxValue;
+
+    m_FileReader.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
 void PPMReader::ReadData(PPM& ppm) noexcept 
