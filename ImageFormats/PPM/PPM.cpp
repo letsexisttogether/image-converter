@@ -27,5 +27,9 @@ PPM::PPM(ImageFormat&& image, std::string&& format,
 // Get info about operator = with rvalues for inheritated classes
 PPM& PPM::operator = (PPM&& ppm)
 {
+    ImageFormat::operator = (std::move(ppm));
+    Format = std::move(ppm.Format);
+    PixelMaxValue = ppm.PixelMaxValue;
+
     return *this;
 }
