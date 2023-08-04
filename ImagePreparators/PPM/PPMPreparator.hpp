@@ -12,10 +12,8 @@ public:
 
     void PrepareImage() noexcept override;
 
-protected:
-    virtual std::string GetFormat() const noexcept; 
-
 private:
+    std::string GetFormat() const noexcept; 
     Pixel::Byte GetPixelMaxValue() const noexcept; 
 
 private: 
