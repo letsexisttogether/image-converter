@@ -12,5 +12,6 @@ public:
     ColorValue Red{};
     ColorValue Green{};
     ColorValue Blue{};
+    ColorValue Alpha{ 255 };
 };
 
