@@ -9,9 +9,9 @@ BMP8DataRowReader::BMP8DataRowReader(std::ifstream& fileReader, BMP& bmp,
 
 void BMP8DataRowReader::ReadNextRow() noexcept
 {
-    ImageFormat::ScreenResolution pixelsLeft = m_BMP.Width;
-
     const std::uint8_t shift = CalculateSetBits(m_XORMask);
+
+    ImageFormat::ScreenResolution pixelsLeft = m_BMP.Width * shift;
      
     ImageFormat::DataRow row{};
 
