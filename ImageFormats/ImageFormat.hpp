@@ -5,6 +5,8 @@
 
 #include "Pixel/Pixel.hpp"
 
+// TODO: make this class a POD (and also all the inheritants)
+
 class ImageFormat
 {
 public:

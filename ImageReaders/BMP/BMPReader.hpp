@@ -15,4 +15,9 @@ protected:
     
     void CheckHeader() const noexcept(false) override;
     void CheckData() const noexcept(false) override;
+
+private:
+    void ReadColorTable() noexcept;
+
+    void RemovePadding(const std::int32_t bytesRead) noexcept;
 };

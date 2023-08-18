@@ -5,7 +5,7 @@
 class BMP32PixelParser: public BMPPixelParser
 {
 public:
-    BMP32PixelParser(const BMP &bmp, const BMPPixelParser::MaskType mask, 
+    BMP32PixelParser(const BMP& bmp, const BMPPixelParser::MaskType mask, 
             const bool isAlpha);
     
     ~BMP32PixelParser() = default;

@@ -7,7 +7,7 @@
 class BMP8PixelParser: public BMPPixelParser
 {
 public:
-    BMP8PixelParser(const BMP &bmp, const BMPPixelParser::MaskType mask);
+    BMP8PixelParser(const BMP& bmp, const BMPPixelParser::MaskType mask);
     
     ~BMP8PixelParser() = default;
 
