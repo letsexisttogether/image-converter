@@ -14,21 +14,22 @@ public:
 
     ImageFormat Read() noexcept(false) override
     {
-        _ImageFormat image;
+        ReadHeader();
+        CheckHeader();
 
-        ReadHeader(image);
-        CheckHeader(image);
+        ReadData(); 
+        CheckData();
 
-        ReadData(image); 
-        CheckData(image);
-
-        return image;
+        return m_Image;
     }
 
 protected:
-    virtual void ReadHeader(_ImageFormat& image) noexcept = 0;
-    virtual void ReadData(_ImageFormat& image) noexcept = 0;
+    virtual void ReadHeader() noexcept = 0;
+    virtual void ReadData() noexcept = 0;
 
-    virtual void CheckHeader(const _ImageFormat& image) const noexcept(false) = 0;
-    virtual void CheckData(const _ImageFormat& image) const noexcept(false) = 0;
+    virtual void CheckHeader() const noexcept(false) = 0;
+    virtual void CheckData() const noexcept(false) = 0;
+
+protected:
+    _ImageFormat m_Image{};
 };
