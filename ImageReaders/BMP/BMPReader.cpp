@@ -26,6 +26,8 @@ void BMPReader::ReadHeader() noexcept
     readAndPrintField(m_Image.Reserved[1], "Reserved[1]");
     readAndPrintField(m_Image.DataOffset, "DataOffset");
 
+    m_FileReader.seekg(0xE, std::ios::beg);
+
     readAndPrintField(m_Image.InfoHeaderSize, "InfoHeaderSize");
     readAndPrintField(m_Image.Width, "Width");
     readAndPrintField(m_Image.Height, "Height");

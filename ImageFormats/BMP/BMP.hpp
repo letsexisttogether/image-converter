@@ -16,7 +16,7 @@ public:
     
 public:
     // Bitmap file header
-    std::string HeaderField{};
+    char HeaderField[2]{};
     std::uint32_t FileSize{};
     std::uint16_t Reserved[2]{};
     std::uint16_t DataOffset{};
