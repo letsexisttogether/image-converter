@@ -5,6 +5,7 @@
 
 class BMPReader : public ImageReaderRealization<BMP>
 {
+public:
     BMPReader(std::ifstream&& reader);
 
     ~BMPReader() = default; 

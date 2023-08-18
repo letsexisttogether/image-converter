@@ -10,21 +10,19 @@ void PPMPreparator::PrepareImage() noexcept
     m_Image.PixelMaxValue = GetPixelMaxValue();
 }
 
-Pixel::Byte PPMPreparator::GetPixelMaxValue() const noexcept
+Pixel::ColorValue PPMPreparator::GetPixelMaxValue() const noexcept
 {
-    Pixel::Byte maxValue{};
+    Pixel::ColorValue maxValue{};
 
-    auto findMax = [&maxValue](const Pixel::Byte& value)
+    auto findMax = [&maxValue](const Pixel::ColorValue& value)
     {
         maxValue = std::max(maxValue, value);
     };
 
     for (const auto& row : m_Image.Data)
     {
-        for (const Pixel& pixel : row)
+        for (const auto& [r, g, b, _] : row)
         {
-            const auto& [r, g, b] = pixel.GetColorValues();
-
             findMax(r);
             findMax(g);
             findMax(b);

@@ -19,7 +19,7 @@ void PPMWriter::WriteData() noexcept(false)
     {
         for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
         {
-            const auto& [r, g, b] = m_Image.GetPixel(h, w).GetColorValues(); 
+            const auto& [r, g, b, _] = m_Image.GetPixel(h, w);
 
             m_FileWriter << r << ' ' << g << ' ' << b << ' ';
         }

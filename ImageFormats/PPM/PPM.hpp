@@ -27,5 +27,5 @@ public:
 
 public:
     std::string Format{};
-    Pixel::Byte PixelMaxValue{};       
+    Pixel::ColorValue PixelMaxValue{};       
 };

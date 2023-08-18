@@ -14,7 +14,7 @@ public:
 
 private:
     std::string GetFormat() const noexcept; 
-    Pixel::Byte GetPixelMaxValue() const noexcept; 
+    Pixel::ColorValue GetPixelMaxValue() const noexcept; 
 
 private: 
     PPM& m_Image;

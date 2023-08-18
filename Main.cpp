@@ -5,9 +5,9 @@
 #include <memory>
 #include <ostream>
 
-#include "ImageReaders/PPMReader/PPMP6Reader.hpp"
-#include "ImageWriters/PPMWriter/PPMWriter.hpp"
+#include "ImageReaders/BMP/BMPReader.hpp"
 #include "ImagePreparators/PPM/PPMPreparator.hpp"
+#include "ImageWriters/PPMWriter/PPMWriter.hpp"
 
 void PrintImage(const ImageFormat& image)
 {
@@ -22,8 +22,8 @@ void PrintImage(const ImageFormat& image)
         {
             const Pixel& pixel = image.GetPixel(h, w);
 
-            std::cout << pixel.GetRed() << ' ' 
-                << pixel.GetGreen() << ' '<< pixel.GetBlue() << '\n';
+            std::cout << pixel.Red << ' ' 
+                << pixel.Green << ' '<< pixel.Blue << '\n';
         }
     }
 
@@ -43,7 +43,7 @@ std::int32_t main(std::int32_t argc, const char** argv)
     
     try
     {
-        std::unique_ptr<ImageReader> reader{ new PPMP6Reader{ std::ifstream{ argv[1], 
+        std::unique_ptr<ImageReader> reader{ new BMPReader{ std::ifstream{ argv[1], 
             std::ios::binary } } };
         const ImageFormat image{ reader->Read() };
 
@@ -63,6 +63,7 @@ std::int32_t main(std::int32_t argc, const char** argv)
                 signature
             } 
         };
+        std::cout << "Breakpoint" << std::endl;
         writer->Write();
 
     }    

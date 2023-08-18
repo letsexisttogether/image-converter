@@ -20,7 +20,7 @@ public:
 
     virtual ~BMPPixelParser() = default;
     
-    virtual ReadBMPPair ReadPixel(std::ifstream& reader) noexcept;
+    virtual ReadBMPPair ReadPixel(std::ifstream& reader) noexcept = 0;
 
 protected:
     const BMP& m_Image;
