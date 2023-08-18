@@ -10,7 +10,7 @@
 class ImageFormat
 {
 public:
-    using ScreenResolution = std::uint32_t;
+    using ScreenResolution = std::int32_t;
     using DataRow = std::vector<Pixel>;
     using DataStorage = std::vector<DataRow>;
     // [Height, Width]

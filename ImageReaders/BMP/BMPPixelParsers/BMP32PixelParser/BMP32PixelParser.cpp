@@ -1,4 +1,5 @@
 #include "BMP32PixelParser.hpp"
+#include <iostream>
 
 BMP32PixelParser::BMP32PixelParser(const BMP &bmp, const BMPPixelParser::MaskType mask, 
             const bool isAlpha)
@@ -11,7 +12,7 @@ BMPPixelParser::ReadBMPPair BMP32PixelParser::ReadPixel(std::ifstream& reader) n
     
     BMPPixelParser::PixelType byteSet{};
     
-    reader.read(reinterpret_cast<char*>(byteSet), bytesToRead);
+    reader.read(reinterpret_cast<char*>(&byteSet), bytesToRead);
 
     return { bytesToRead, MakePixelFromByteSet(byteSet) }; 
 }

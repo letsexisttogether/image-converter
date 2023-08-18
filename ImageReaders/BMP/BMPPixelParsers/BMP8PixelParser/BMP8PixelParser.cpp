@@ -13,7 +13,7 @@ BMPPixelParser::ReadBMPPair BMP8PixelParser::ReadPixel(std::ifstream& reader) no
     if (m_Pixels.empty())
     {
         BMPPixelParser::PixelType byte{};
-        reader.read(reinterpret_cast<char*>(byte), bytesToRead);
+        reader.read(reinterpret_cast<char*>(&byte), bytesToRead);
 
         MakePixelsFromByte(byte); 
     }

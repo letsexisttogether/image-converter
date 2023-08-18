@@ -6,6 +6,7 @@
 #include <stdexcept>
 
 #include "BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.hpp"
+#include "ImageFormats/ImageFormat.hpp"
 
 BMPReader::BMPReader(std::ifstream&& reader) 
     : ImageReaderRealization<BMP>{ std::forward<std::ifstream>(reader) }
@@ -49,28 +50,32 @@ void BMPReader::ReadData() noexcept
 
     std::unique_ptr<BMPPixelParser> bmpParser
     {
-        new BMP32PixelParser{ m_Image, 0x20, true } 
+        new BMP32PixelParser{ m_Image, 0b11111111, true } 
     };
 
-    for (ImageFormat::ScreenResolution h = 0; h < m_Image.Height; ++h)
+    const auto& [height, width] = m_Image.GetResolution();
+
+    m_Image.Data.resize(height);
+
+    for (ImageFormat::ScreenResolution h = height - 1; h >= 0; --h)
     {
         ImageFormat::DataRow row{};
 
         BMPPixelParser::ReadSize bitsRead = 0;
-        for (ImageFormat::ScreenResolution w = 0; w < m_Image.Width; ++w)
+
+        for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
         {
             const auto& [readSize, pixel] = bmpParser->ReadPixel(m_FileReader);
 
             bitsRead += readSize;
-
+            
             row.push_back(pixel);
         }
 
         RemovePadding(bitsRead);
 
-        m_Image.Data.push_back(std::move(row));
+        m_Image.Data[h] = std::move(row);
     } 
-
 }
 
 void BMPReader::ReadColorTable() noexcept
