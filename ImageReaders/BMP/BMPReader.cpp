@@ -1,7 +1,8 @@
 #include "BMPReader.hpp"
 
-#include <ios>
+#include <iostream>
 #include <memory>
+#include <stdexcept>
 
 #include "BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.hpp"
 
@@ -11,7 +12,8 @@ BMPReader::BMPReader(std::ifstream&& reader)
 
 void BMPReader::ReadHeader() noexcept
 {
-    m_FileReader >> m_Image.HeaderField >> m_Image.FileSize >> m_Image.Reserved[0] 
+    m_FileReader >> m_Image.HeaderField[0] >> m_Image.HeaderField[1] 
+        >> m_Image.FileSize >> m_Image.Reserved[0] 
         >> m_Image.Reserved[1] >> m_Image.DataOffset;
 
     m_FileReader >> m_Image.InfoHeaderSize >> m_Image.Width >> m_Image.Height 
@@ -23,6 +25,10 @@ void BMPReader::ReadHeader() noexcept
 
 void BMPReader::ReadData() noexcept 
 {
+    ReadColorTable();
+
+    m_FileReader.seekg(m_Image.DataOffset, std::ios::beg);
+
     std::unique_ptr<BMPPixelParser> bmpParser
     {
         new BMP32PixelParser{ m_Image, 0x20, true } 
@@ -70,14 +76,25 @@ void BMPReader::ReadColorTable() noexcept
 void BMPReader::RemovePadding(const std::int32_t bytesRead) noexcept 
 {
     const std::int32_t paddingAllignment = 0x4;
-    const std::streamsize bytesLeft = std::abs(bytesRead - paddingAllignment);
+    const std::streamsize bytesLeft = std::abs(paddingAllignment - bytesRead);
 
     char buffer[bytesLeft];
     m_FileReader.read(buffer, bytesLeft);
 }
 
 void BMPReader::CheckHeader() const noexcept(false)
-{}
+{
+    if (const auto& headerField = m_Image.HeaderField; 
+            headerField[0] != 'B' || headerField[1] != 'M')
+    {
+        throw std::runtime_error { "The BMP file signature was not found: BM needed" };
+    }
+
+    if (!(m_Image.Height * m_Image.Width))
+    {
+        throw std::runtime_error{ "Resolution cannot be 0" };
+    }
+}
 
 void BMPReader::CheckData() const noexcept(false)
 {}
