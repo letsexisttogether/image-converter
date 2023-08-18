@@ -13,7 +13,6 @@ public:
 
     ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
 
-
 private:
     void MakePixelsFromByte(PixelType byte) noexcept;
 

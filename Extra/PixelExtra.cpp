@@ -1,25 +1,25 @@
 #include "PixelExtra.hpp"
 
-std::uint8_t CalculateSetBits(const std::uint8_t byte)
+std::uint8_t CalculateSetBits(const std::uint32_t byteSet)
 {
     std::uint8_t count = 0;
 
-    for (std::uint8_t byteCopy = byte; byteCopy; byteCopy >>= 1)
+    for (std::uint32_t byteSetCopy = byteSet; byteSetCopy; byteSetCopy >>= 1)
     {
-        count += (byteCopy & 1);
+        count += (byteSetCopy & 1);
     }
 
     return count;
 }
 
-std::uint8_t ReverseBits(const std::uint8_t byte)
+std::uint32_t ReverseBits(const std::uint32_t byteSet)
 {
-    std::uint8_t reversedByte{};
+    std::uint32_t reversedByte{};
 
-    for (std::uint8_t i = 0, byteSize = sizeof(byte), mask = 0x1; 
+    for (std::uint32_t i = 0, byteSize = sizeof(byteSet), mask = 0x1; 
             i < byteSize; ++i)
     {
-            if (byte & (mask << i)) 
+            if (byteSet & (mask << i)) 
             {
                 reversedByte |= (mask << (byteSize - mask - i));
             }
