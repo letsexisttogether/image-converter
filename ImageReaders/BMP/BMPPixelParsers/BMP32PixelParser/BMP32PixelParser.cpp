@@ -28,14 +28,14 @@ Pixel BMP32PixelParser::MakePixelFromByteSet(PixelType byteSet)
 
     Pixel pixel{};
 
+    makeColorValue(pixel.Blue);
+    makeColorValue(pixel.Green);
+    makeColorValue(pixel.Red);
+
     if (m_IsAlpha)
     {
         makeColorValue(pixel.Alpha);
     }
-
-    makeColorValue(pixel.Blue);
-    makeColorValue(pixel.Green);
-    makeColorValue(pixel.Red);
 
     return pixel;
 }

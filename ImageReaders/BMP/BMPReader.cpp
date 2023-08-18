@@ -99,10 +99,13 @@ void BMPReader::ReadColorTable() noexcept
 void BMPReader::RemovePadding(const std::int32_t bytesRead) noexcept 
 {
     const std::int32_t paddingAllignment = 0x4;
-    const std::streamsize bytesLeft = std::abs(paddingAllignment - bytesRead);
-
-    char buffer[bytesLeft];
-    m_FileReader.read(buffer, bytesLeft);
+    const std::streamsize bytesLeft = paddingAllignment - (bytesRead % paddingAllignment);
+    
+    if (bytesLeft != paddingAllignment)
+    {
+        char buffer[bytesLeft];
+        m_FileReader.read(buffer, bytesLeft);
+    }
 }
 
 void BMPReader::CheckHeader() const noexcept(false)
