@@ -6,7 +6,7 @@ template<class _ImageFormat>
 class ImageReaderRealization : public ImageReader
 {
 public:
-    ImageReaderRealization(std::ifstream && reader)
+    ImageReaderRealization(std::ifstream&& reader)
         : ImageReader{ std::forward<std::ifstream>(reader) }
     {}
 

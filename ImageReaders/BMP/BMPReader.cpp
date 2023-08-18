@@ -1,5 +1,6 @@
 #include "BMPReader.hpp"
 
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <stdexcept>
@@ -12,15 +13,30 @@ BMPReader::BMPReader(std::ifstream&& reader)
 
 void BMPReader::ReadHeader() noexcept
 {
-    m_FileReader >> m_Image.HeaderField[0] >> m_Image.HeaderField[1] 
-        >> m_Image.FileSize >> m_Image.Reserved[0] 
-        >> m_Image.Reserved[1] >> m_Image.DataOffset;
+    auto readAndPrintField = [this](auto& field, const std::string& fieldName) 
+    {
+        m_FileReader.read(reinterpret_cast<char*>(&field), sizeof(field));
+        std::cout << fieldName << " : " << field << std::endl;
+    };
 
-    m_FileReader >> m_Image.InfoHeaderSize >> m_Image.Width >> m_Image.Height 
-        >> m_Image.ColorPlanesNumber >> m_Image.BitsPerPixel 
-        >> m_Image.CompressionMethod >> m_Image.ImageSize 
-        >> m_Image.HorizontalResolution >> m_Image.VertivalResolution 
-        >> m_Image.ColorPaletteNumber >> m_Image.ImportantColorsNumber;
+    readAndPrintField(m_Image.HeaderField[0], "HeaderField[0]");
+    readAndPrintField(m_Image.HeaderField[1], "HeaderField[1]");
+    readAndPrintField(m_Image.FileSize, "FileSize");
+    readAndPrintField(m_Image.Reserved[0], "Reserved[0]");
+    readAndPrintField(m_Image.Reserved[1], "Reserved[1]");
+    readAndPrintField(m_Image.DataOffset, "DataOffset");
+
+    readAndPrintField(m_Image.InfoHeaderSize, "InfoHeaderSize");
+    readAndPrintField(m_Image.Width, "Width");
+    readAndPrintField(m_Image.Height, "Height");
+    readAndPrintField(m_Image.ColorPlanesNumber, "ColorPlanesNumber");
+    readAndPrintField(m_Image.BitsPerPixel, "BitsPerPixel");
+    readAndPrintField(m_Image.CompressionMethod, "CompressionMethod");
+    readAndPrintField(m_Image.ImageSize, "ImageSize");
+    readAndPrintField(m_Image.HorizontalResolution, "HorizontalResolution");
+    readAndPrintField(m_Image.VertivalResolution, "VertivalResolution");
+    readAndPrintField(m_Image.ColorPaletteNumber, "ColorPaletteNumber");
+    readAndPrintField(m_Image.ImportantColorsNumber, "ImportantColorsNumber");
 }
 
 void BMPReader::ReadData() noexcept 
