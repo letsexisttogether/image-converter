@@ -32,5 +32,5 @@ public:
     std::uint32_t ColorPaletteNumber{};
     std::uint32_t ImportantColorsNumber{};
 
-    ImageFormat::DataStorage ColorTable{};
+    ImageFormat::DataRow ColorTable{};
 };
