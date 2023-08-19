@@ -12,13 +12,15 @@ set(CMAKE_CXX_COMPILER "clang++")
 set(ImageFormat "ImageFormats/ImageFormat.cpp")
 set(PPMFormat "ImageFormats/PPM/PPM.cpp")
 set(Reader "ImageReaders/BMP/BMPReader.cpp")
-set(ExtraReader "ImageReaders/BMP/BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.cpp")
+set(Reader8 "ImageReaders/BMP/BMPPixelParsers/BMP8PixelParser/BMP8PixelParser.cpp")
+set(Reader32 "ImageReaders/BMP/BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.cpp")
 set(Writer "ImageWriters/PPMWriter/PPMWriter.cpp")
+set(ParsersFabric "ImageReaders/BMP/BMPParsersFabric/BMPParsersFabric.cpp")
 set(Preparator "ImagePreparators/PPM/PPMPreparator.cpp")
 set(Extra "Extra/PixelExtra.cpp")
 
-set(SOURCES Main.cpp ${ImageFormat} ${PPMFormat} ${Reader} ${ExtraReader}
-    ${Preparator} ${Writer} ${Extra}) 
+set(SOURCES Main.cpp ${ImageFormat} ${PPMFormat} ${Reader} ${Reader8} 
+    ${Reader32} ${Preparator} ${ParsersFabric} ${Writer} ${Extra}) 
 
 add_executable(${PROJECT_NAME}
     ${SOURCES}) 

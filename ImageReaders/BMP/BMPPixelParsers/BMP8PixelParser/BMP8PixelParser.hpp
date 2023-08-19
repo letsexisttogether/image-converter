@@ -14,7 +14,7 @@ public:
     ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
 
 private:
-    void MakePixelsFromByte(PixelType byte) noexcept;
+    void FillPixelsQueue(PixelType byte) noexcept;
 
     Pixel GetLastPixel() noexcept(false);
 

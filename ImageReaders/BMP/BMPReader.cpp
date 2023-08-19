@@ -5,11 +5,11 @@
 #include <memory>
 #include <stdexcept>
 
-#include "BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.hpp"
 #include "ImageFormats/ImageFormat.hpp"
 
-BMPReader::BMPReader(std::ifstream&& reader) 
-    : ImageReaderRealization<BMP>{ std::forward<std::ifstream>(reader) }
+BMPReader::BMPReader(std::ifstream&& reader, const BMPParsersFabric& parsersFabric) 
+    : ImageReaderRealization<BMP>{ std::forward<std::ifstream>(reader) },
+        m_Fabric(parsersFabric)
 {}
 
 void BMPReader::ReadHeader() noexcept
@@ -50,7 +50,7 @@ void BMPReader::ReadData() noexcept
 
     std::unique_ptr<BMPPixelParser> bmpParser
     {
-        new BMP32PixelParser{ m_Image, 0b11111111, true } 
+        m_Fabric.GetBMPParser(m_Image)
     };
 
     const auto& [height, width] = m_Image.GetResolution();

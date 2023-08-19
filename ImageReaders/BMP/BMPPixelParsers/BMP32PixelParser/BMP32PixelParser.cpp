@@ -1,5 +1,4 @@
 #include "BMP32PixelParser.hpp"
-#include <iostream>
 
 BMP32PixelParser::BMP32PixelParser(const BMP &bmp, const BMPPixelParser::MaskType mask, 
             const bool isAlpha)

@@ -15,7 +15,7 @@ BMPPixelParser::ReadBMPPair BMP8PixelParser::ReadPixel(std::ifstream& reader) no
         BMPPixelParser::PixelType byte{};
         reader.read(reinterpret_cast<char*>(&byte), bytesToRead);
 
-        MakePixelsFromByte(byte); 
+        FillPixelsQueue(byte); 
     }
     
     return { bytesToRead, GetLastPixel() }; 
@@ -23,10 +23,10 @@ BMPPixelParser::ReadBMPPair BMP8PixelParser::ReadPixel(std::ifstream& reader) no
 
 // TODO: Get out of exceptions
 
-void BMP8PixelParser::MakePixelsFromByte(BMPPixelParser::PixelType byte) noexcept
+void BMP8PixelParser::FillPixelsQueue(BMPPixelParser::PixelType byte) noexcept
 {
     for (ImageFormat::ScreenResolution width = m_Image.Width; 
-            width && byte; byte >>= m_MaskBitsCount)
+            width && byte; --width, byte >>= m_MaskBitsCount)
     {
         PixelType value = byte & m_Mask;
 

@@ -1,12 +1,12 @@
 #pragma once
 
+#include "ImageReaders/BMP/BMPParsersFabric/BMPParsersFabric.hpp"
 #include "ImageReaders/ImageReaderRealization.hpp"
-#include "ImageFormats/BMP/BMP.hpp"
 
 class BMPReader : public ImageReaderRealization<BMP>
 {
 public:
-    BMPReader(std::ifstream&& reader);
+    BMPReader(std::ifstream&& reader, const BMPParsersFabric& parsersFabric);
 
     ~BMPReader() = default; 
 
@@ -21,4 +21,7 @@ private:
     void ReadColorTable() noexcept;
 
     void RemovePadding(const std::int32_t bytesRead) noexcept;
+
+private:
+    BMPParsersFabric m_Fabric;
 };

@@ -5,6 +5,9 @@
 class BMP : public ImageFormat
 {
 public:
+    using BPPType = std::uint16_t;
+
+public:
     BMP() = default;
     BMP(const BMP&) = default;
     BMP(BMP&& bmp) = default;
@@ -24,7 +27,7 @@ public:
     // DIB (bitmap information) header
     std::uint32_t InfoHeaderSize{};
     std::uint16_t ColorPlanesNumber{};
-    std::uint16_t BitsPerPixel{};
+    BPPType BitsPerPixel{};
     std::uint32_t CompressionMethod{};
     std::uint32_t ImageSize{};
     std::uint32_t HorizontalResolution{};
