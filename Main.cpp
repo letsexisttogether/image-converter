@@ -11,27 +11,6 @@
 #include "ImageReaders/BMP/DataParsers/BMP32/BMP32DataParser.hpp"
 #include "ImageReaders/BMP/DataParsers/BMP8/BMP8DataParser.hpp"
 
-void PrintImage(const ImageFormat& image)
-{
-    const auto& [height, width] = image.GetResolution();
-
-    std::cout << "Height: " << height << " Width: " << width 
-        << "\nData:\n";
-
-    for (ImageFormat::ScreenResolution h = 0; h < height; ++h)
-    {
-        for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
-        {
-            const Pixel& pixel = image.GetPixel(h, w);
-
-            std::cout << pixel.Red << ' ' 
-                << pixel.Green << ' '<< pixel.Blue << '\n';
-        }
-    }
-
-    std::cout << "\nEnd of print" << std::endl;
-}
-
 std::int32_t main(std::int32_t argc, const char** argv)
 {
     std::cout << "Hello, neovim" << std::endl; 
