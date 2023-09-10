@@ -42,7 +42,7 @@ const Pixel& ImageFormat::GetPixel(const ScreenResolution height,
     return const_cast<ImageFormat*>(this)->GetPixel(height, width);
 }
 
-ImageFormat& ImageFormat::operator = (ImageFormat&& imageFormat)
+ImageFormat& ImageFormat::operator = (ImageFormat&& imageFormat) noexcept
 {
     Height = imageFormat.Height;
     Width = imageFormat.Width;

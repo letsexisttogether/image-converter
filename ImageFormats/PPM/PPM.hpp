@@ -11,19 +11,12 @@ class PPM : public ImageFormat
 public:
     PPM() = default;
     PPM(const PPM&) = default;
-    PPM(PPM&& ppm);
-    
-    PPM(const ImageFormat& image);
-    PPM(ImageFormat&& image);
-    PPM(const ImageFormat& image, const std::string& format, 
-            const std::uint16_t pixelMaxValue); 
-    PPM(ImageFormat&& image, std::string&& format, 
-            const std::uint16_t pixelMaxValue);
+    PPM(PPM&& ppm) = default;
 
     ~PPM() = default;
 
     PPM& operator = (const PPM&) = default;
-    PPM& operator = (PPM&& ppm);
+    PPM& operator = (PPM&& ppm) = default;
 
 public:
     std::string Format{};

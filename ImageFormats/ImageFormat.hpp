@@ -5,8 +5,6 @@
 
 #include "Pixel/Pixel.hpp"
 
-// TODO: make this class a POD (and also all the inheritants)
-
 class ImageFormat
 {
 public:
@@ -38,7 +36,7 @@ public:
         const noexcept(false);
 
     ImageFormat& operator = (const ImageFormat&) = default;
-    ImageFormat& operator = (ImageFormat&& imageFormat);
+    ImageFormat& operator = (ImageFormat&& imageFormat) noexcept;
 
 public:
     ScreenResolution Width{};
