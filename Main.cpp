@@ -7,9 +7,9 @@
 
 #include "ImageReaders/BMP/BMPReader.hpp"
 #include "ImagePreparators/PPM/PPMPreparator.hpp"
-#include "ImageWriters/PPMWriter/PPMWriter.hpp"
-#include "ImageReaders/BMP/BMPPixelParsers/BMP32PixelParser/BMP32PixelParser.hpp"
-#include "ImageReaders/BMP/BMPPixelParsers/BMP8PixelParser/BMP8PixelParser.hpp"
+#include "ImageWriters/PPM/PPMWriter.hpp"
+#include "ImageReaders/BMP/DataParsers/BMP32/BMP32DataParser.hpp"
+#include "ImageReaders/BMP/DataParsers/BMP8/BMP8DataParser.hpp"
 
 void PrintImage(const ImageFormat& image)
 {
@@ -38,8 +38,10 @@ std::int32_t main(std::int32_t argc, const char** argv)
 
     if (argc < 3)
     {
-        std::cerr << "The arguments does not specify the needed amount\n";
+       std::cerr << "The arguments does not specify the needed amount\n";
         
+        std::cout << sizeof(std::int32_t*) << std::endl;
+
         return EXIT_FAILURE;
     }
     
@@ -54,30 +56,30 @@ std::int32_t main(std::int32_t argc, const char** argv)
                 {
                     BMPParsersFabric::FunctionsMap
                     {
-                        { 0x1, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP8PixelParser(bmp, 0b1); } },
-                        { 0x2, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP8PixelParser(bmp, 0b11); } },
-                        { 0x4, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP8PixelParser(bmp, 0b1111); } },
-                        { 0x8, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP8PixelParser(bmp, 0x11111111); } },
-                        { 0x10, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP32PixelParser(bmp, 0x1111, true); } },
-                        { 0x18, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP32PixelParser(bmp, 0b11111111, false); } },
-                        { 0x20, [](const BMP& bmp) -> BMPPixelParser* 
-                            { return new BMP32PixelParser(bmp, 0b11111111, true); } }
+                        { 0x1, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP8DataParser(bmp, 0b1); } },
+                        { 0x2, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP8DataParser(bmp, 0b11); } },
+                        { 0x4, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP8DataParser(bmp, 0b1111); } },
+                        { 0x8, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP8DataParser(bmp, 0x11111111); } },
+                        { 0x10, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP32DataParser(bmp, 0x1111, true); } },
+                        { 0x18, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP32DataParser(bmp, 0b11111111, false); } },
+                        { 0x20, [](const BMP& bmp) -> BMPDataParser* 
+                            { return new BMP32DataParser(bmp, 0b11111111, true); } }
                     }
                 }
             } 
         };
         const ImageFormat image{ reader->Read() };
 
-        PPM signature
-        {
-            std::move(image)
-        };
+        PPM signature{};
+        signature.Width = image.Width;
+        signature.Height = image.Height;
+        signature.Data = std::move(image.Data);
 
         std::unique_ptr<ImagePreparator> preparator{ new PPMPreparator{ signature } };
         preparator->PrepareImage();
@@ -97,7 +99,7 @@ std::int32_t main(std::int32_t argc, const char** argv)
     catch (std::exception& exp)
     {
         std::cerr << exp.what() << std::endl;
-
+        
         return EXIT_FAILURE;
     }
     

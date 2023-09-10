@@ -9,7 +9,7 @@ BMPParsersFabric::BMPParsersFabric(BMPParsersFabric::FunctionsMap&& map)
 {}
 
 // TODO: Get out of exceptions
-BMPPixelParser* BMPParsersFabric::GetBMPParser(const BMP& bmp) noexcept(false)
+BMPDataParser* BMPParsersFabric::GetBMPParser(const BMP& bmp) noexcept(false)
 {
     const auto& iter = m_Functions.find(bmp.BitsPerPixel);
 

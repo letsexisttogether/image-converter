@@ -2,12 +2,12 @@
 
 #include <map>
 
-#include "ImageReaders/BMP/BMPPixelParsers/BMPPixelParser.hpp"
+#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 
 class BMPParsersFabric
 {
 public:
-    using ConstructingFunc = BMPPixelParser* (*) (const BMP& bmp);
+    using ConstructingFunc = BMPDataParser* (*) (const BMP& bmp);
     using FunctionsMap = std::map<std::uint16_t, ConstructingFunc>;
 
 public:
@@ -20,7 +20,7 @@ public:
 
     ~BMPParsersFabric() = default;
     
-    BMPPixelParser* GetBMPParser(const BMP& bmp) noexcept(false);
+    BMPDataParser* GetBMPParser(const BMP& bmp) noexcept(false);
 
     bool CheckBPPExistance(const BMP::BPPType bpp) const noexcept;
 

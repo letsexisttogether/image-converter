@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ImageReaders/BMP/BMPParsersFabric/BMPParsersFabric.hpp"
 #include "ImageReaders/ImageReaderRealization.hpp"
+#include "ParsersFabric/BMPParsersFabric.hpp"
 
 class BMPReader : public ImageReaderRealization<BMP>
 {
