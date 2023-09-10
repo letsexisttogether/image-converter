@@ -2,14 +2,14 @@
 
 #include <queue>
 
-#include "ImageReaders/BMP/BMPPixelParsers/BMPPixelParser.hpp"
+#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 
-class BMP8PixelParser: public BMPPixelParser
+class BMP8DataParser: public BMPDataParser
 {
 public:
-    BMP8PixelParser(const BMP& bmp, const BMPPixelParser::MaskType mask);
+    BMP8DataParser(const BMP& bmp, const BMPDataParser::MaskType mask);
     
-    ~BMP8PixelParser() = default;
+    ~BMP8DataParser() = default;
 
     ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
 

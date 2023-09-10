@@ -5,7 +5,7 @@
 #include "ImageFormats/BMP/BMP.hpp"
 #include "Extra/PixelExtra.hpp"
 
-class BMPPixelParser
+class BMPDataParser
 {
 public:
     using ReadSize = std::uint32_t;
@@ -13,12 +13,12 @@ public:
     using PixelType = std::uint32_t;
     using MaskType = PixelType;
 public:
-    BMPPixelParser(const BMP& bmp, const MaskType mask) 
+    BMPDataParser(const BMP& bmp, const MaskType mask) 
         : m_Image{ bmp }, m_Mask{ mask }, 
             m_MaskBitsCount{ CalculateSetBits(m_Mask) }
     {}
 
-    virtual ~BMPPixelParser() = default;
+    virtual ~BMPDataParser() = default;
     
     virtual ReadBMPPair ReadPixel(std::ifstream& reader) noexcept = 0;
 

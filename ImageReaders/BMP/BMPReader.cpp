@@ -78,6 +78,23 @@ void BMPReader::ReadData() noexcept
     } 
 }
 
+void BMPReader::CheckHeader() const noexcept(false)
+{
+    if (const auto& headerField = m_Image.HeaderField; 
+            headerField[0] != 'B' || headerField[1] != 'M')
+    {
+        throw std::runtime_error { "The BMP file signature was not found: BM needed" };
+    }
+
+    if (!(m_Image.Height * m_Image.Width))
+    {
+        throw std::runtime_error{ "Resolution cannot be 0" };
+    }
+}
+
+void BMPReader::CheckData() const noexcept(false)
+{}
+
 void BMPReader::ReadColorTable() noexcept
 {
     for (std::uint32_t i = 0; i < m_Image.ColorPaletteNumber; ++i)
@@ -107,20 +124,3 @@ void BMPReader::RemovePadding(const std::int32_t bytesRead) noexcept
         m_FileReader.read(buffer, bytesLeft);
     }
 }
-
-void BMPReader::CheckHeader() const noexcept(false)
-{
-    if (const auto& headerField = m_Image.HeaderField; 
-            headerField[0] != 'B' || headerField[1] != 'M')
-    {
-        throw std::runtime_error { "The BMP file signature was not found: BM needed" };
-    }
-
-    if (!(m_Image.Height * m_Image.Width))
-    {
-        throw std::runtime_error{ "Resolution cannot be 0" };
-    }
-}
-
-void BMPReader::CheckData() const noexcept(false)
-{}

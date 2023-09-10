@@ -1,18 +1,18 @@
-#include "BMP8PixelParser.hpp"
+#include "BMP8DataParser.hpp"
 
 #include <stdexcept>
 
-BMP8PixelParser::BMP8PixelParser(const BMP &bmp, const BMPPixelParser::MaskType mask)
-    : BMPPixelParser{ bmp, mask }
+BMP8DataParser::BMP8DataParser(const BMP &bmp, const BMPDataParser::MaskType mask)
+    : BMPDataParser{ bmp, mask }
 {}
 
-BMPPixelParser::ReadBMPPair BMP8PixelParser::ReadPixel(std::ifstream& reader) noexcept
+BMPDataParser::ReadBMPPair BMP8DataParser::ReadPixel(std::ifstream& reader) noexcept
 {
     const std::streamsize bytesToRead = ((m_Pixels.empty()) ? (0x1) : (0x0));
 
     if (m_Pixels.empty())
     {
-        BMPPixelParser::PixelType byte{};
+        BMPDataParser::PixelType byte{};
         reader.read(reinterpret_cast<char*>(&byte), bytesToRead);
 
         FillPixelsQueue(byte); 
@@ -23,7 +23,7 @@ BMPPixelParser::ReadBMPPair BMP8PixelParser::ReadPixel(std::ifstream& reader) no
 
 // TODO: Get out of exceptions
 
-void BMP8PixelParser::FillPixelsQueue(BMPPixelParser::PixelType byte) noexcept
+void BMP8DataParser::FillPixelsQueue(BMPDataParser::PixelType byte) noexcept
 {
     for (ImageFormat::ScreenResolution width = m_Image.Width; 
             width && byte; --width, byte >>= m_MaskBitsCount)
@@ -34,7 +34,7 @@ void BMP8PixelParser::FillPixelsQueue(BMPPixelParser::PixelType byte) noexcept
     }
 }
 
-Pixel BMP8PixelParser::GetLastPixel() noexcept(false)
+Pixel BMP8DataParser::GetLastPixel() noexcept(false)
 { 
     if (m_Pixels.empty())
     {

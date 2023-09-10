@@ -1,14 +1,14 @@
 #pragma once
 
-#include "ImageReaders/BMP/BMPPixelParsers/BMPPixelParser.hpp"
+#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 
-class BMP32PixelParser: public BMPPixelParser
+class BMP32DataParser: public BMPDataParser
 {
 public:
-    BMP32PixelParser(const BMP& bmp, const BMPPixelParser::MaskType mask, 
+    BMP32DataParser(const BMP& bmp, const BMPDataParser::MaskType mask, 
             const bool isAlpha);
     
-    ~BMP32PixelParser() = default;
+    ~BMP32DataParser() = default;
 
     ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
 
