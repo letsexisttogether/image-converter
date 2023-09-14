@@ -30,3 +30,4 @@ public:
 private:
     const FunctionsMap m_Functions{};
 };
+
