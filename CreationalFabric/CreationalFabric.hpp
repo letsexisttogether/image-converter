@@ -2,25 +2,25 @@
 #include <stdexcept>
 
 template <class _Key, class _Value, class ... Argc>
-class ParserFabric
+class CreationalFabric
 {
 public:
     using ConstructingFunc = _Value* (*) (Argc...);
     using FunctionsMap = std::map<_Key, ConstructingFunc>;
 
-    ParserFabric() = delete;
-    ParserFabric(const ParserFabric&) = default;
-    ParserFabric(ParserFabric&&) = default;
+    CreationalFabric() = delete;
+    CreationalFabric(const CreationalFabric&) = default;
+    CreationalFabric(CreationalFabric&&) = default;
 
-    ParserFabric(const FunctionsMap& map)
+    CreationalFabric(const FunctionsMap& map)
         : m_Functions{ map }
     {}
 
-    ParserFabric(FunctionsMap&& map)
+    CreationalFabric(FunctionsMap&& map)
         : m_Functions{ std::move(map) }
     {}
 
-    ~ParserFabric() = default;
+    ~CreationalFabric() = default;
 
     _Value* GetParser(const _Key& key, Argc&& ... argc) noexcept(false)
     {
@@ -39,8 +39,8 @@ public:
         return (m_Functions.find(key) != m_Functions.end());
     }
 
-    ParserFabric& operator = (const ParserFabric&) = delete;
-    ParserFabric& operator = (ParserFabric&&) = delete;
+    CreationalFabric& operator = (const CreationalFabric&) = delete;
+    CreationalFabric& operator = (CreationalFabric&&) = delete;
 
 private:
     const FunctionsMap m_Functions{};

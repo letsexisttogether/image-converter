@@ -3,7 +3,7 @@
 #include "ImageReaders/ImageReaderRealization.hpp"
 #include "ImageFormats/PPM/PPM.hpp"
 
-#include "ImageReaders/ParserFabric/ParserFabric.hpp"
+#include "CreationalFabric/CreationalFabric.hpp"
 #include "DataParsers/PPMDataParser.hpp"
 
 class PPMReader : public ImageReaderRealization<PPM> 
