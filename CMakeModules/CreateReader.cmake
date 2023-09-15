@@ -9,9 +9,6 @@ function(CreateReader READER_NAME FORMATS EXTRAS)
 
     list(TRANSFORM SOURCES PREPEND "${READER_NAME}/")
 
-    list(APPEND SOURCES "${CMAKE_SOURCE_DIR}/ImageFormats/ImageFormat.cpp" 
-        "${CMAKE_SOURCE_DIR}/Extra/PixelExtra.cpp")
-
     foreach(EXTRA IN LISTS EXTRAS)
         list(APPEND SOURCES ${EXTRA})
     endforeach()

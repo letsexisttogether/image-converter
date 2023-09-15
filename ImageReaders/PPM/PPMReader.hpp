@@ -9,7 +9,7 @@
 class PPMReader : public ImageReaderRealization<PPM> 
 {
 public:
-    using Fabric = ParserFabric<std::string, PPMDataParser, std::ifstream&, const PPM&>;
+    using Fabric = CreationalFabric<std::string, PPMDataParser, std::ifstream&, const PPM&>;
 
 public:
     PPMReader(std::ifstream&& reader, Fabric&& fabric);

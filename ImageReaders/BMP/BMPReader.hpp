@@ -8,7 +8,7 @@
 class BMPReader : public ImageReaderRealization<BMP>
 {
 public:
-    using Fabric = ParserFabric<BMP::BPPType, BMPDataParser, 
+    using Fabric = CreationalFabric<BMP::BPPType, BMPDataParser, 
           std::ifstream&, const BMP&>;
 
 public:
