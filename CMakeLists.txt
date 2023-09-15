@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
     ${SOURCES}) 
 
 add_subdirectory(ImageReaders)
+add_subdirectory(ImageWriters)
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_SOURCE_DIR}) 
 
