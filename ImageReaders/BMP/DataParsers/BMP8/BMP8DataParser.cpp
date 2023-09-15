@@ -2,18 +2,19 @@
 
 #include <stdexcept>
 
-BMP8DataParser::BMP8DataParser(const BMP &bmp, const BMPDataParser::MaskType mask)
-    : BMPDataParser{ bmp, mask }
+BMP8DataParser::BMP8DataParser(std::ifstream& fileReader, 
+        const BMP &bmp, const BMPDataParser::MaskType mask)
+    : BMPDataParser{ fileReader, bmp, mask }
 {}
 
-BMPDataParser::ReadBMPPair BMP8DataParser::ReadPixel(std::ifstream& reader) noexcept
+BMPDataParser::ReadBMPPair BMP8DataParser::ReadPixel() noexcept
 {
     const std::streamsize bytesToRead = ((m_Pixels.empty()) ? (0x1) : (0x0));
 
     if (m_Pixels.empty())
     {
         BMPDataParser::PixelType byte{};
-        reader.read(reinterpret_cast<char*>(&byte), bytesToRead);
+        m_FileReader.read(reinterpret_cast<char*>(&byte), bytesToRead);
 
         FillPixelsQueue(byte); 
     }

@@ -5,12 +5,12 @@
 class BMP32DataParser: public BMPDataParser
 {
 public:
-    BMP32DataParser(const BMP& bmp, const BMPDataParser::MaskType mask, 
-            const bool isAlpha);
+    BMP32DataParser(std::ifstream& fileReader, const BMP& bmp, 
+            const BMPDataParser::MaskType mask, const bool isAlpha);
     
     ~BMP32DataParser() = default;
 
-    ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
+    ReadBMPPair ReadPixel() noexcept override;
 
 private:
     Pixel MakePixelFromByteSet(PixelType byteSet);

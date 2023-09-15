@@ -7,9 +7,9 @@
 
 #include "ImageFormats/ImageFormat.hpp"
 
-BMPReader::BMPReader(std::ifstream&& reader, const BMPParsersFabric& parsersFabric) 
+BMPReader::BMPReader(std::ifstream&& reader, Fabric&& parsersFabric) 
     : ImageReaderRealization<BMP>{ std::forward<std::ifstream>(reader) },
-        m_Fabric(parsersFabric)
+        m_Fabric(std::move(parsersFabric))
 {}
 
 void BMPReader::ReadHeader() noexcept
@@ -48,9 +48,9 @@ void BMPReader::ReadData() noexcept
 
     m_FileReader.seekg(m_Image.DataOffset, std::ios::beg);
 
-    std::unique_ptr<BMPPixelParser> bmpParser
+    std::unique_ptr<BMPDataParser> bmpParser
     {
-        m_Fabric.GetBMPParser(m_Image)
+        m_Fabric.GetParser(m_Image.BitsPerPixel, m_FileReader, m_Image)
     };
 
     const auto& [height, width] = m_Image.GetResolution();
@@ -61,11 +61,11 @@ void BMPReader::ReadData() noexcept
     {
         ImageFormat::DataRow row{};
 
-        BMPPixelParser::ReadSize bitsRead = 0;
+        BMPDataParser::ReadSize bitsRead = 0;
 
         for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
         {
-            const auto& [readSize, pixel] = bmpParser->ReadPixel(m_FileReader);
+            const auto& [readSize, pixel] = bmpParser->ReadPixel();
 
             bitsRead += readSize;
             

@@ -7,11 +7,11 @@
 class BMP8DataParser: public BMPDataParser
 {
 public:
-    BMP8DataParser(const BMP& bmp, const BMPDataParser::MaskType mask);
+    BMP8DataParser(std::ifstream& fileReader, const BMP& bmp, const BMPDataParser::MaskType mask);
     
     ~BMP8DataParser() = default;
 
-    ReadBMPPair ReadPixel(std::ifstream& reader) noexcept override;
+    ReadBMPPair ReadPixel() noexcept override;
 
 private:
     void FillPixelsQueue(PixelType byte) noexcept;

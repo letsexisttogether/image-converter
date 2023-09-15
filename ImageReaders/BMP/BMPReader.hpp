@@ -1,12 +1,18 @@
 #pragma once
 
+#include "ImageFormats/BMP/BMP.hpp"
+#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 #include "ImageReaders/ImageReaderRealization.hpp"
-#include "ParsersFabric/BMPParsersFabric.hpp"
+#include "ImageReaders/ParserFabric/ParserFabric.hpp"
 
 class BMPReader : public ImageReaderRealization<BMP>
 {
 public:
-    BMPReader(std::ifstream&& reader, const BMPParsersFabric& parsersFabric);
+    using Fabric = ParserFabric<BMP::BPPType, BMPDataParser, 
+          std::ifstream&, const BMP&>;
+
+public:
+    BMPReader(std::ifstream&& reader, Fabric&& parsersFabric);
 
     ~BMPReader() = default; 
 
@@ -23,5 +29,5 @@ private:
     void RemovePadding(const std::int32_t bytesRead) noexcept;
 
 private:
-    BMPParsersFabric m_Fabric;
+    Fabric m_Fabric;
 };

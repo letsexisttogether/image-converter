@@ -1,17 +1,17 @@
 #include "BMP32DataParser.hpp"
 
-BMP32DataParser::BMP32DataParser(const BMP &bmp, const BMPDataParser::MaskType mask, 
-            const bool isAlpha)
-    : BMPDataParser{ bmp, mask }, m_IsAlpha{ isAlpha }
+BMP32DataParser::BMP32DataParser(std::ifstream& fileReader, const BMP &bmp, 
+        const BMPDataParser::MaskType mask, const bool isAlpha)
+    : BMPDataParser{ fileReader, bmp, mask }, m_IsAlpha{ isAlpha }
 {}
 
-BMPDataParser::ReadBMPPair BMP32DataParser::ReadPixel(std::ifstream& reader) noexcept
+BMPDataParser::ReadBMPPair BMP32DataParser::ReadPixel() noexcept
 {
     const std::streamsize bytesToRead = m_Image.BitsPerPixel / 0x8;
     
     BMPDataParser::PixelType byteSet{};
     
-    reader.read(reinterpret_cast<char*>(&byteSet), bytesToRead);
+    m_FileReader.read(reinterpret_cast<char*>(&byteSet), bytesToRead);
 
     return { bytesToRead, MakePixelFromByteSet(byteSet) }; 
 }
