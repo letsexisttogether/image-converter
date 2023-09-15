@@ -1,7 +1,8 @@
 #include "PPMWriter.hpp"
 
-PPMWriter::PPMWriter(std::ofstream&& fileWriter, const PPM& image)
-    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter), image }
+PPMWriter::PPMWriter(std::ofstream&& fileWriter, const PPM& image, Fabric&& fabric)
+    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter), image },
+        m_Fabric{ fabric }
 {}
 
 void PPMWriter::WriteHeader() noexcept(false)
@@ -17,13 +18,12 @@ void PPMWriter::WriteData() noexcept(false)
 
     for (ImageFormat::ScreenResolution h = 0; h < height; ++h)
     {
+        std::unique_ptr<PPMDataCoder> coder
+            { m_Fabric.SpawnObject(m_Image.Format, m_FileWriter, m_Image) };
+
         for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
         {
-            const auto& [r, g, b, _] = m_Image.GetPixel(h, w);
-
-            m_FileWriter << r << ' ' << g << ' ' << b << ' ';
+            coder->CodeData(m_Image.GetPixel(h, w));
         }
-
-        m_FileWriter << '\n';
     }   
 }
