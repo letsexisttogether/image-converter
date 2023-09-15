@@ -1,10 +1,14 @@
 #include "P3DataParser.hpp"
 
-Pixel P3DataParser::ReadPixel(std::ifstream& fileReader) noexcept
+P3DataParser::P3DataParser(std::ifstream& m_FileReader)
+    : PPMDataParser{ m_FileReader }
+{}
+
+Pixel P3DataParser::ReadPixel() noexcept
 {
     Pixel pixel{};
     
-    fileReader >> pixel.Red >> pixel.Green >> pixel.Blue;
+    m_FileReader >> pixel.Red >> pixel.Green >> pixel.Blue;
 
     return pixel;
 }

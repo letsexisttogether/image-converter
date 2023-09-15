@@ -5,9 +5,9 @@
 class P3DataParser : public PPMDataParser
 {
 public:
-    P3DataParser() = default;
+    P3DataParser(std::ifstream& fileReader);
 
     ~P3DataParser() = default;
 
-    Pixel ReadPixel(std::ifstream& fileReader) noexcept override; 
+    Pixel ReadPixel() noexcept override; 
 };

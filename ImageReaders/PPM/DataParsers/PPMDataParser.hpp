@@ -7,9 +7,14 @@
 class PPMDataParser
 {
 public:
-    PPMDataParser() = default;
+    PPMDataParser(std::ifstream& fileReader)
+        : m_FileReader{ fileReader }
+    {}
 
     virtual ~PPMDataParser() = default;
 
-    virtual Pixel ReadPixel(std::ifstream& fileReader) noexcept = 0; 
+    virtual Pixel ReadPixel() noexcept = 0; 
+
+protected:
+    std::ifstream& m_FileReader;
 };

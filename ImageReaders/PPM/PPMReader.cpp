@@ -44,7 +44,7 @@ void PPMReader::ReadData() noexcept
     const auto& [height, width] = m_Image.GetResolution();
     
     std::unique_ptr<PPMDataParser> parser
-        { m_Fabric.GetParser(m_Image.Format, m_Image) };
+        { m_Fabric.GetParser(m_Image.Format, m_FileReader, m_Image) };
 
     imageData.reserve(height);
 
@@ -55,7 +55,7 @@ void PPMReader::ReadData() noexcept
 
         for (ImageFormat::ScreenResolution w = 0; w < width; ++w)
         {
-            row.push_back(parser->ReadPixel(m_FileReader));
+            row.push_back(parser->ReadPixel());
         }
 
         imageData.push_back(std::move(row));
