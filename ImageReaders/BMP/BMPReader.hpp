@@ -1,8 +1,9 @@
 #pragma once
 
 #include "ImageFormats/BMP/BMP.hpp"
-#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 #include "ImageReaders/ImageReaderRealization.hpp"
+
+#include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 #include "CreationalFabric/CreationalFabric.hpp"
 
 class BMPReader : public ImageReaderRealization<BMP>

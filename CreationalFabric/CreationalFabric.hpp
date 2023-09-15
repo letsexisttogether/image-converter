@@ -22,7 +22,7 @@ public:
 
     ~CreationalFabric() = default;
 
-    _Value* GetParser(const _Key& key, Argc&& ... argc) noexcept(false)
+    _Value* SpawnObject(const _Key& key, Argc&& ... argc) noexcept(false)
     {
         const auto& iter = m_Functions.find(key);
 

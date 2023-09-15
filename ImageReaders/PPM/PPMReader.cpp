@@ -44,7 +44,7 @@ void PPMReader::ReadData() noexcept
     const auto& [height, width] = m_Image.GetResolution();
     
     std::unique_ptr<PPMDataParser> parser
-        { m_Fabric.GetParser(m_Image.Format, m_FileReader, m_Image) };
+        { m_Fabric.SpawnObject(m_Image.Format, m_FileReader, m_Image) };
 
     imageData.reserve(height);
 

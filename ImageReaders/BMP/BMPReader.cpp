@@ -50,7 +50,7 @@ void BMPReader::ReadData() noexcept
 
     std::unique_ptr<BMPDataParser> bmpParser
     {
-        m_Fabric.GetParser(m_Image.BitsPerPixel, m_FileReader, m_Image)
+        m_Fabric.SpawnObject(m_Image.BitsPerPixel, m_FileReader, m_Image)
     };
 
     const auto& [height, width] = m_Image.GetResolution();
