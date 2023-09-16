@@ -2,6 +2,7 @@
 
 #include "ImageWriters/ImageWriterRealization.hpp"
 #include "ImageFormats/PPM/PPM.hpp"
+#include "ImageWriters/ImagePreparator.hpp"
 
 #include "DataCoders/PPMDataCoder.hpp"
 #include "CreationalFabric/CreationalFabric.hpp"
@@ -13,7 +14,8 @@ public:
           std::ofstream&, const PPM&>;
 
 public:
-    PPMWriter(std::ofstream&& fileWriter, const PPM& image, Fabric&& fabric);
+    PPMWriter(std::ofstream&& fileWriter, 
+            ImagePreparator<PPM>&& preparator, Fabric&& fabric);
 
     ~PPMWriter() = default;
 
@@ -22,5 +24,6 @@ protected:
     void WriteData() noexcept(false) override;
 
 private:
+    const PPM m_Image;
     Fabric m_Fabric;
 };

@@ -1,8 +1,9 @@
 #include "PPMWriter.hpp"
 
-PPMWriter::PPMWriter(std::ofstream&& fileWriter, const PPM& image, Fabric&& fabric)
-    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter), image },
-        m_Fabric{ fabric }
+PPMWriter::PPMWriter(std::ofstream&& fileWriter, 
+            ImagePreparator<PPM>&& preparator, Fabric&& fabric)
+    : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter) },
+        m_Image{ std::move(preparator.PrepareImage()) }, m_Fabric{ fabric }
 {}
 
 void PPMWriter::WriteHeader() noexcept(false)

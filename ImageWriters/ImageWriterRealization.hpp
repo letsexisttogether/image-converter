@@ -8,8 +8,8 @@ template<class _ImageFormat>
 class ImageWriterRealization : public ImageWriter
 {
 public:
-    ImageWriterRealization(std::ofstream&& fileWriter, const _ImageFormat& image)
-        : ImageWriter{ std::forward<std::ofstream>(fileWriter) }, m_Image{ image }
+    ImageWriterRealization(std::ofstream&& fileWriter)
+        : ImageWriter{ std::forward<std::ofstream>(fileWriter) } 
     {}
 
     virtual ~ImageWriterRealization() = default;
@@ -22,7 +22,4 @@ public:
 
     virtual void WriteHeader() noexcept(false) = 0;
     virtual void WriteData() noexcept(false) = 0;
-
-protected:
-    const _ImageFormat& m_Image;
 };
