@@ -1,13 +1,17 @@
 #include "PPMPreparator.hpp"
 
-PPMPreparator::PPMPreparator(PPM& image) 
-    : m_Image{ image }
+#include <utility>
+
+PPMPreparator::PPMPreparator(ImageFormat&& image) 
+    : ImagePreparator<PPM>(std::forward<ImageFormat>(image))
 {}
 
-void PPMPreparator::PrepareImage() noexcept
+PPM&& PPMPreparator::PrepareImage() noexcept
 {
     m_Image.Format = GetFormat(); 
     m_Image.PixelMaxValue = GetPixelMaxValue();
+
+    return std::move(m_Image);
 }
 
 Pixel::ColorValue PPMPreparator::GetPixelMaxValue() const noexcept
@@ -34,5 +38,6 @@ Pixel::ColorValue PPMPreparator::GetPixelMaxValue() const noexcept
 
 std::string PPMPreparator::GetFormat() const noexcept
 {
+    // Yes, we hardcode
     return "P3";
 }
