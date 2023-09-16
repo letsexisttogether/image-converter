@@ -7,6 +7,8 @@ function(CreateWriter WRITER_NAME FORMATS EXTRAS)
         list(APPEND SOURCES "DataCoders/${CODER}/${CODER}DataCoder.cpp")
     endforeach()
 
+    list(APPEND SOURCES "ImagePreparator/${WRITER_NAME}Preparator.cpp")
+
     list(TRANSFORM SOURCES PREPEND "${WRITER_NAME}/")
 
     foreach(EXTRA IN LISTS EXTRAS)
