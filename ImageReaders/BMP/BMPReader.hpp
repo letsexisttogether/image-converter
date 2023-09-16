@@ -6,7 +6,7 @@
 #include "ImageReaders/BMP/DataParsers/BMPDataParser.hpp"
 #include "CreationalFabric/CreationalFabric.hpp"
 
-class BMPReader : public ImageReaderRealization<BMP>
+class __declspec(dllexport) BMPReader : public ImageReaderRealization<BMP>
 {
 public:
     using Fabric = CreationalFabric<BMP::BPPType, BMPDataParser, 

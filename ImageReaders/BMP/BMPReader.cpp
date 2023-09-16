@@ -6,6 +6,8 @@
 #include <stdexcept>
 
 #include "ImageFormats/ImageFormat.hpp"
+#include "DataParsers/BMP8/BMP8DataParser.hpp"
+#include "DataParsers/BMP32/BMP32DataParser.hpp"
 
 BMPReader::BMPReader(std::ifstream&& reader, Fabric&& parsersFabric) 
     : ImageReaderRealization<BMP>{ std::forward<std::ifstream>(reader) },
@@ -123,4 +125,48 @@ void BMPReader::RemovePadding(const std::int32_t bytesRead) noexcept
         char buffer[bytesLeft];
         m_FileReader.read(buffer, bytesLeft);
     }
+}
+
+// DLL 
+extern "C" __declspec(dllexport) ImageReader* CreateReader
+    (std::ifstream&& reader)
+{
+    // Yes, we hardcode
+    BMPReader::Fabric fabric
+    {
+        BMPReader::Fabric::FunctionsMap
+        {
+            { 
+                0x1, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP8DataParser(reader, bmp, 0b1); } 
+            },
+            { 
+                0x2, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP8DataParser(reader, bmp, 0b11); } 
+            },
+            { 
+                0x4, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP8DataParser(reader, bmp, 0b1111); } 
+            },
+            {
+                0x8, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP8DataParser(reader, bmp, 0x11111111); } 
+            },
+            { 
+                0x10, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP32DataParser(reader, bmp, 0x1111, true); } 
+            },
+            { 
+                0x18, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP32DataParser(reader, bmp, 0b11111111, false); } 
+            },
+            { 
+                0x20, [](std::ifstream& reader, const BMP& bmp) -> BMPDataParser* 
+                { return new BMP32DataParser(reader, bmp, 0b11111111, true); } 
+            }
+        }
+    };
+
+    return new BMPReader{ std::forward<std::ifstream>(reader), 
+        std::move(fabric) };
 }

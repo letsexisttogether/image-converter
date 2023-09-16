@@ -1,11 +1,11 @@
 #include <map>
 #include <stdexcept>
 
-template <class _Key, class _Value, class ... Argc>
+template <class _Key, class _Value, class ... _Argc>
 class CreationalFabric
 {
 public:
-    using ConstructingFunc = _Value* (*) (Argc...);
+    using ConstructingFunc = _Value* (*) (_Argc...);
     using FunctionsMap = std::map<_Key, ConstructingFunc>;
 
     CreationalFabric() = delete;
@@ -22,7 +22,7 @@ public:
 
     ~CreationalFabric() = default;
 
-    _Value* SpawnObject(const _Key& key, Argc&& ... argc) noexcept(false)
+    _Value* SpawnObject(const _Key& key, _Argc&& ... argc) noexcept(false)
     {
         const auto& iter = m_Functions.find(key);
 
@@ -31,7 +31,7 @@ public:
             throw std::runtime_error{ "DEV: wrong format" };
         }
 
-        return iter->second(std::forward<Argc>(argc) ...);
+        return iter->second(std::forward<_Argc>(argc) ...);
     }
 
     bool CheckParserExistance(const _Key& key) const noexcept
