@@ -13,6 +13,14 @@ public:
     PPM(const PPM&) = default;
     PPM(PPM&& ppm) = default;
 
+    PPM(const ImageFormat& image)
+        : ImageFormat{ image } 
+    {}
+   
+    PPM(ImageFormat&& image)
+        : ImageFormat{ std::move(image) }
+    {}
+
     ~PPM() = default;
 
     PPM& operator = (const PPM&) = default;
