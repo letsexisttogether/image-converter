@@ -1,5 +1,9 @@
 #include "PPMWriter.hpp"
 
+#include "ImageWriters/PPM/ImagePreparator/PPMPreparator.hpp"
+#include "ImageWriters/PPM/DataCoders/P3/P3DataCoder.hpp"
+#include "ImageWriters/PPM/DataCoders/P6/P6DataCoder.hpp"
+
 PPMWriter::PPMWriter(std::ofstream&& fileWriter, 
             ImagePreparator<PPM>&& preparator, Fabric&& fabric)
     : ImageWriterRealization<PPM>{ std::forward<std::ofstream>(fileWriter) },
@@ -27,4 +31,32 @@ void PPMWriter::WriteData() noexcept(false)
             coder->CodeData(m_Image.GetPixel(h, w));
         }
     }   
+}
+
+// DLL
+extern "C" __declspec(dllexport) ImageWriter* CreateWriter
+    (std::ofstream&& writer, ImageFormat&& image)
+{
+    PPMWriter::Fabric fabric
+    {
+        PPMWriter::Fabric::FunctionsMap
+        {
+            { 
+                "P3", [] (std::ofstream& writer, const PPM& ppm) -> PPMDataCoder*
+                {
+                    return new P3DataCoder{ writer };
+                }
+            },
+            { 
+                "P6", [] (std::ofstream& writer, const PPM& ppm) -> PPMDataCoder*
+                {
+                    return new P6DataCoder{ writer, ppm };
+                }
+            }
+        }
+    };
+
+    return new PPMWriter{ std::move(writer), 
+        PPMPreparator{ std::move(image) }, std::move(fabric) };
+
 }

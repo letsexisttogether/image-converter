@@ -11,5 +11,5 @@ P3DataCoder::~P3DataCoder()
 
 void P3DataCoder::CodeData(const Pixel& pixel) noexcept
 {
-    m_FileWriter << pixel.Red << ' ' << pixel.Green << ' ' << pixel.Blue;
+    m_FileWriter << pixel.Red << ' ' << pixel.Green << ' ' << pixel.Blue << ' ';
 }

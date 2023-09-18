@@ -7,7 +7,7 @@
 #include "DataCoders/PPMDataCoder.hpp"
 #include "CreationalFabric/CreationalFabric.hpp"
 
-class PPMWriter : public ImageWriterRealization<PPM>
+class __declspec(dllexport) PPMWriter : public ImageWriterRealization<PPM>
 {
 public:
     using Fabric = CreationalFabric<std::string, PPMDataCoder, 
