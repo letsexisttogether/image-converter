@@ -5,11 +5,10 @@
 #include <memory>
 #include <ostream>
 
-#include "ImageReaders/BMP/BMPReader.hpp"
-#include "ImagePreparators/PPM/PPMPreparator.hpp"
-#include "ImageWriters/PPM/PPMWriter.hpp"
-#include "ImageReaders/BMP/DataParsers/BMP32/BMP32DataParser.hpp"
-#include "ImageReaders/BMP/DataParsers/BMP8/BMP8DataParser.hpp"
+#include "ImageFormats/ImageFormat.hpp"
+#include "ImageReaders/ImageReader.hpp"
+#include "ImageWriters/ImageWriter.hpp"
+#include "SharedLibLoaders/WindowsLibLoader/WindowsLibLoader.hpp"
 
 std::int32_t main(std::int32_t argc, const char** argv)
 {
@@ -25,55 +24,44 @@ std::int32_t main(std::int32_t argc, const char** argv)
     }
     
     try
-    {
-        std::unique_ptr<ImageReader> reader
+    { 
+        std::unique_ptr<SharedLibLoader<ImageReader, std::ifstream&&>> readerLoader
         { 
-            new BMPReader
-            { 
-                std::ifstream{ argv[1], std::ios::binary },
-                BMPParsersFabric
-                {
-                    BMPParsersFabric::FunctionsMap
-                    {
-                        { 0x1, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP8DataParser(bmp, 0b1); } },
-                        { 0x2, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP8DataParser(bmp, 0b11); } },
-                        { 0x4, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP8DataParser(bmp, 0b1111); } },
-                        { 0x8, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP8DataParser(bmp, 0x11111111); } },
-                        { 0x10, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP32DataParser(bmp, 0x1111, true); } },
-                        { 0x18, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP32DataParser(bmp, 0b11111111, false); } },
-                        { 0x20, [](const BMP& bmp) -> BMPDataParser* 
-                            { return new BMP32DataParser(bmp, 0b11111111, true); } }
-                    }
+                new WindowsLibLoader<ImageReader, std::ifstream&&>
+                { 
+                    "ImageReaders/BMPReader.dll", "CreateReader"
                 }
-            } 
+            
         };
-        const ImageFormat image{ reader->Read() };
 
-        PPM signature{};
-        signature.Width = image.Width;
-        signature.Height = image.Height;
-        signature.Data = std::move(image.Data);
+        readerLoader->LoadLib();
 
-        std::unique_ptr<ImagePreparator> preparator{ new PPMPreparator{ signature } };
-        preparator->PrepareImage();
+        std::unique_ptr<SharedLibLoader<ImageWriter, std::ofstream&&, ImageFormat&&>>
+            writerLoader
+        { 
+            new WindowsLibLoader<ImageWriter, std::ofstream&&, ImageFormat&&>
+            { 
+                "ImageWriters/PPMWriter.dll", "CreateWriter"
+            }
+            
+        };
+
+        writerLoader->LoadLib();
+
+
+        std::unique_ptr<ImageReader> reader
+        {
+            readerLoader->SpawnObject(std::ifstream{ argv[1], std::ios::binary })
+        };
+
+        ImageFormat image{ reader->Read() };
 
         std::unique_ptr<ImageWriter> writer
-        { 
-            new PPMWriter
-            { 
-                std::ofstream{ argv[2] }, 
-                signature
-            } 
-        };
-        std::cout << "Breakpoint" << std::endl;
+        {
+            writerLoader->SpawnObject(std::ofstream{ argv[2] }, std::move(image))
+        }; 
+        
         writer->Write();
-
     }    
     catch (std::exception& exp)
     {
