@@ -6,6 +6,9 @@
 #include <utility>
 #include <memory>
 
+#include "DataParsers/P3/P3DataParser.hpp"
+#include "DataParsers/P6/P6DataParser.hpp"
+
 PPMReader::PPMReader(std::ifstream&& reader, Fabric&& fabric)
     : ImageReaderRealization<PPM>{ std::forward<std::ifstream>(reader) },
         m_Fabric{ std::move(fabric) }
@@ -95,4 +98,28 @@ void PPMReader::CheckData() const noexcept(false)
     {
         throw std::runtime_error{ "The data is corrupted" };
     }
+}
+
+// DLL 
+extern "C" __declspec(dllexport) ImageReader* CreateReader
+    (std::ifstream&& reader)
+{
+    // Yes, we hardcode it
+    PPMReader::Fabric fabric
+    {
+        PPMReader::Fabric::FunctionsMap
+        {
+            { 
+                "P3", [] (std::ifstream& reader, const PPM& ppm) -> PPMDataParser*
+                { return new P3DataParser{ reader }; }
+            },
+            { 
+                "P6", [] (std::ifstream& reader, const PPM& ppm) -> PPMDataParser*
+                { return new P6DataParser{ reader, ppm }; }
+            },
+        }
+    };
+
+    return new PPMReader{ std::forward<std::ifstream>(reader), 
+        std::move(fabric) };
 }

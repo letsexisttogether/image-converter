@@ -6,7 +6,7 @@
 #include "CreationalFabric/CreationalFabric.hpp"
 #include "DataParsers/PPMDataParser.hpp"
 
-class PPMReader : public ImageReaderRealization<PPM> 
+class __declspec(dllexport) PPMReader : public ImageReaderRealization<PPM> 
 {
 public:
     using Fabric = CreationalFabric<std::string, PPMDataParser, std::ifstream&, const PPM&>;

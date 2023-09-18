@@ -16,7 +16,7 @@ std::int32_t main(std::int32_t argc, const char** argv)
 
     if (argc < 3)
     {
-       std::cerr << "The arguments does not specify the needed amount\n";
+        std::cerr << "The arguments does not specify the needed amount\n";
         
         std::cout << sizeof(std::int32_t*) << std::endl;
 
@@ -27,11 +27,10 @@ std::int32_t main(std::int32_t argc, const char** argv)
     { 
         std::unique_ptr<SharedLibLoader<ImageReader, std::ifstream&&>> readerLoader
         { 
-                new WindowsLibLoader<ImageReader, std::ifstream&&>
-                { 
-                    "ImageReaders/BMPReader.dll", "CreateReader"
-                }
-            
+            new WindowsLibLoader<ImageReader, std::ifstream&&>
+            { 
+                "ImageReaders/BMPReader.dll", "CreateReader"
+            }
         };
 
         readerLoader->LoadLib();
@@ -43,7 +42,6 @@ std::int32_t main(std::int32_t argc, const char** argv)
             { 
                 "ImageWriters/PPMWriter.dll", "CreateWriter"
             }
-            
         };
 
         writerLoader->LoadLib();
