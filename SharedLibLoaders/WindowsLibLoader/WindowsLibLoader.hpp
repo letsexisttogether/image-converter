@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <utility>
 #include <windows.h>
 
 #include "SharedLibLoaders/SharedLibLoader.hpp"
@@ -18,24 +19,24 @@ public:
         FreeLibrary(m_DLLAddress);        
     }
 
-    void LoadLibrary() noexcept(false) override
+    void LoadLib() noexcept(false) override
     {
-        SharedLibLoader<_DLLClass, _Argc...>::LoadLibrary(); 
+        SharedLibLoader<_DLLClass, _Argc...>::LoadLib(); 
 
-        m_DLLAddress = LoadLibrary(m_DLLPath.wstring().c_str());
+        m_DLLAddress = LoadLibrary(this->m_DLLPath.string().c_str());
     }
 
     _DLLClass* SpawnObject(_Argc ... argc) noexcept(false) override
     {
         auto ctor = reinterpret_cast<CreationalFunction>
-            (GetProcAddress(m_DLLAddress, m_CtorName));
+            (GetProcAddress(m_DLLAddress, this->m_CtorName.c_str()));
 
         if (!ctor)
         {
             throw std::runtime_error{ "DEV: Failed to get constructor address" };
         }
 
-        return ctor(argc...);
+        return ctor(std::forward<_Argc>(argc)...);
     }
 
 private:

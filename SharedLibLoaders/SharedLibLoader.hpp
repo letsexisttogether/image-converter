@@ -17,7 +17,7 @@ public:
 
     virtual ~SharedLibLoader() = default;
 
-    virtual void LoadLibrary() noexcept(false)
+    virtual void LoadLib() noexcept(false)
     {
         if (!std::filesystem::exists(m_DLLPath))
         {
