@@ -16,32 +16,31 @@ BMPReader::BMPReader(std::ifstream&& reader, Fabric&& parsersFabric)
 
 void BMPReader::ReadHeader() noexcept
 {
-    auto readAndPrintField = [this](auto& field, const std::string& fieldName) 
+    auto readField = [this](auto& field)
     {
         m_FileReader.read(reinterpret_cast<char*>(&field), sizeof(field));
-        std::cout << fieldName << " : " << field << std::endl;
     };
 
-    readAndPrintField(m_Image.HeaderField[0], "HeaderField[0]");
-    readAndPrintField(m_Image.HeaderField[1], "HeaderField[1]");
-    readAndPrintField(m_Image.FileSize, "FileSize");
-    readAndPrintField(m_Image.Reserved[0], "Reserved[0]");
-    readAndPrintField(m_Image.Reserved[1], "Reserved[1]");
-    readAndPrintField(m_Image.DataOffset, "DataOffset");
+    readField(m_Image.HeaderField[0]);
+    readField(m_Image.HeaderField[1]);
+    readField(m_Image.FileSize);
+    readField(m_Image.Reserved[0]);
+    readField(m_Image.Reserved[1]);
+    readField(m_Image.DataOffset);
 
     m_FileReader.seekg(0xE, std::ios::beg);
 
-    readAndPrintField(m_Image.InfoHeaderSize, "InfoHeaderSize");
-    readAndPrintField(m_Image.Width, "Width");
-    readAndPrintField(m_Image.Height, "Height");
-    readAndPrintField(m_Image.ColorPlanesNumber, "ColorPlanesNumber");
-    readAndPrintField(m_Image.BitsPerPixel, "BitsPerPixel");
-    readAndPrintField(m_Image.CompressionMethod, "CompressionMethod");
-    readAndPrintField(m_Image.ImageSize, "ImageSize");
-    readAndPrintField(m_Image.HorizontalResolution, "HorizontalResolution");
-    readAndPrintField(m_Image.VertivalResolution, "VertivalResolution");
-    readAndPrintField(m_Image.ColorPaletteNumber, "ColorPaletteNumber");
-    readAndPrintField(m_Image.ImportantColorsNumber, "ImportantColorsNumber");
+    readField(m_Image.InfoHeaderSize);
+    readField(m_Image.Width);
+    readField(m_Image.Height);
+    readField(m_Image.ColorPlanesNumber);
+    readField(m_Image.BitsPerPixel);
+    readField(m_Image.CompressionMethod);
+    readField(m_Image.ImageSize);
+    readField(m_Image.HorizontalResolution);
+    readField(m_Image.VertivalResolution);
+    readField(m_Image.ColorPaletteNumber);
+    readField(m_Image.ImportantColorsNumber);
 }
 
 void BMPReader::ReadData() noexcept 
@@ -70,7 +69,7 @@ void BMPReader::ReadData() noexcept
             const auto& [readSize, pixel] = bmpParser->ReadPixel();
 
             bitsRead += readSize;
-            
+              
             row.push_back(pixel);
         }
 
